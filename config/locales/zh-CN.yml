@@ -20,6 +20,7 @@
     models:
       user: "用户"
       user_session: '用户会话'
+      user_device: '用户设备'
       admin: "管理员"
       cpanel: '后台系统' # 此处并不存在真正意义的model，只是为了后台系统的面包屑导航根地址国际化成中文
       banner: '广告'
@@ -39,6 +40,7 @@
       recharge: '充值'
       pay_log: '交易明细'
       area: '区域'
+      media_provider: '视频提供者'
     attributes:
       user:
         uid: 'ID'
