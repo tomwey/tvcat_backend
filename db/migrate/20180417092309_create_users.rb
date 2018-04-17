@@ -6,6 +6,7 @@ class CreateUsers < ActiveRecord::Migration
       t.string :nickname
       t.string :avatar
       t.string :bio
+      t.integer :user_session_count, default: 0
       t.datetime :vip_expired_at
       t.string :private_token
       t.boolean :verified, default: true
