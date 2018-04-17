@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   # 富文本上传路由
   mount RedactorRails::Engine => '/redactor_rails'
   
-  get 'install' => 'home#install'
+  # get 'install' => 'home#install'
   
   # 网页文档
   resources :pages, path: :p, only: [:show]

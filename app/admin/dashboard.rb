@@ -11,7 +11,7 @@ ActiveAdmin.register_page "Dashboard" do
     # end
     
     div class: "blank_slate_container" do
-      "您好，#{current_admin_user.email}，欢迎来到改机后台！"
+      "您好，#{current_admin_user.email}，欢迎来到后台系统！"
       # render "admin/dashboard/profile", owner: current_admin_user
     end
     

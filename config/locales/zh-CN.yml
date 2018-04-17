@@ -39,10 +39,6 @@
       recharge: '充值'
       pay_log: '交易明细'
       area: '区域'
-      project: '项目'
-      packet: '改机数据'
-      task_log: '刷单日志'
-      device_info: '设备信息'
     attributes:
       user:
         uid: 'ID'
@@ -64,6 +60,11 @@
         content: '内容'
         link: '消息链接地址'
         to_users: '消息接收人'
+      banner:
+        image: '封面图'
+        link: '链接地址'
+        sort: '显示顺序'
+        opened: '是否上线'
       message_template:
         tpl_id: '模板ID'
         title: '标题'
