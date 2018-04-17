@@ -13,7 +13,7 @@ module API
       class UserBase < Base
         expose :uid, as: :id
         expose :private_token, as: :token
-        expose :current_location
+        expose :vip_expired_at, as: :vip_expire_time
       end
       
       # 用户基本信息
@@ -32,6 +32,15 @@ module API
         expose :today_earn, format_with: :money_format
         expose :wx_id, format_with: :null
         unexpose :private_token, as: :token
+      end
+      
+      class MediaProvider < Base
+        expose :uniq_id, as: :id
+        expose :name
+        expose :icon do |model, opts|
+          model.icon.url(:large)
+        end
+        expose :url
       end
       
       # 用户详情
@@ -65,48 +74,6 @@ module API
           model.data.url
         end
         expose :width, :height
-      end
-      
-      class Packet < Base
-        expose :uniq_id, as: :id
-        expose :serial
-        expose :android_id
-        expose :imei
-        expose :sim_serial  # 手机卡序列号
-        expose :imsi
-        expose :sim_country # 手机卡国家
-        expose :phone_number # 手机号
-        expose :carrier_id   # 运营商
-        expose :carrier_name # 运营商名字
-        expose :network_type # 网络类型
-        expose :phone_type   # 手机类型
-        expose :sim_state    # 手机卡状态
-        expose :mac_addr     # MAC地址
-        expose :bluetooth_mac # 蓝牙地址
-        expose :wifi_mac # 路由器MAC
-        expose :wifi_name # 路由器名字
-        expose :os_version # 系统版本号
-        expose :sdk_value  # 系统版本值
-        expose :sdk_int
-        expose :screen_size # 分辨率
-        expose :screen_dpi
-        
-        expose :board
-        expose :brand
-        expose :cpu
-        expose :cpu2
-        expose :device
-        expose :display
-        expose :fingerprint
-        expose :hardware
-        expose :product_model
-        expose :manufacturer
-        expose :model
-        expose :product
-        expose :bootloader
-        expose :host
-        expose :build_tags
-        expose :incremental
       end
       
       # 红包
@@ -565,13 +532,8 @@ module API
         expose :image do |model, opts|
           model.image.url(:large)
         end
-        expose :link, if: proc { |o| o.link.present? && (o.link.start_with?('http://') or o.link.start_with?('https://')) }
-        expose :event, using:  API::V1::Entities::Event, if: proc { |o| o.link.present? && o.link.start_with?('event:') } do |model, opts|
-          model.event
-        end
-        expose :ad, using:  API::V1::Entities::SimplePage, if: proc { |o| o.link.present? && o.link.start_with?('page:') } do |model, opts|
-          model.page
-        end
+        expose :link, format_with: :null
+        
         expose :view_count, :click_count
       end
       

@@ -3,6 +3,9 @@ class MediaProvider < ActiveRecord::Base
   
   mount_uploader :icon, AvatarUploader
   
+  scope :opened, -> { where(opened: true) }
+  scope :sorted, -> { order('sort asc') }
+  
   before_create :generate_unique_id
   def generate_unique_id
     begin

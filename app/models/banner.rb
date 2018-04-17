@@ -3,6 +3,9 @@ class Banner < ActiveRecord::Base
   
   mount_uploader :image, BannerImageUploader
   
+  scope :opened, -> { where(opened: true) }
+  scope :sorted, -> { order('sort asc') }
+  
   before_create :generate_unique_id
   def generate_unique_id
     begin
