@@ -1,7 +1,7 @@
 # config valid only for Capistrano 3.1
 # lock '3.7.2'
 
-set :application, 'gaiji_backend'
+set :application, 'tvcat_backend'
 set :deploy_user, "deployer"
 
 # set :scm, :git

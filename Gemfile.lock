@@ -53,6 +53,9 @@ GEM
       activemodel (= 4.2.4)
       activesupport (= 4.2.4)
       arel (~> 6.0)
+    activerecord-postgis-adapter (3.1.5)
+      activerecord (~> 4.2)
+      rgeo-activerecord (>= 4.0.4)
     activesupport (4.2.4)
       i18n (~> 0.7)
       json (~> 1.7, >= 1.7.7)
@@ -298,6 +301,10 @@ GEM
     rest-client (1.7.3)
       mime-types (>= 1.16, < 3.0)
       netrc (~> 0.7)
+    rgeo (0.6.0)
+    rgeo-activerecord (4.0.5)
+      activerecord (~> 4.2)
+      rgeo (~> 0.3)
     ruby-hmac (0.4.0)
     sass (3.5.1)
       sass-listen (~> 4.0.0)
@@ -365,6 +372,7 @@ PLATFORMS
 
 DEPENDENCIES
   activeadmin (= 1.0.0)
+  activerecord-postgis-adapter
   annotate (~> 2.6.5)
   arctic_admin
   bcrypt (~> 3.1.7)
@@ -405,6 +413,7 @@ DEPENDENCIES
   redis-namespace
   redis-objects
   rest-client
+  rgeo
   sass-rails
   sdoc (~> 0.4.0)
   settingslogic
