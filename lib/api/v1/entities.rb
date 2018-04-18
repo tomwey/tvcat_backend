@@ -51,7 +51,7 @@ module API
         expose :avatar do |model, opts|
           model.format_avatar_url
         end
-        expose :vip_expired_at, as: :vip_time
+        expose :vip_expired_at, as: :vip_time, format_with: :chinese_date
         expose :left_days do |model, opts|
           model.left_days
         end
@@ -74,7 +74,7 @@ module API
       class VipCard < Base
         expose :code
         expose :month
-        expose :actived_at, as: :active_time
+        expose :actived_at, as: :active_time, format_with: :chinese_datetime
       end
       
       class Page < SimplePage
