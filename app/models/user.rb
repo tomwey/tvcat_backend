@@ -21,11 +21,8 @@ class User < ActiveRecord::Base
   end
   
   def format_nickname
-    text = wechat_profile.try(:nickname) || hack_mobile || self.nickname
-    if text.blank?
-      text = "ID: #{self.uid}"
-    end
-    text
+    @ud ||= UserDevice.where(uid: self.uid).first
+    return @ud.try(:uname) || "ID:#{self.uid}"
   end
   
   def format_avatar_url
