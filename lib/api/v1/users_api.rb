@@ -274,10 +274,10 @@ module API
           render_json_no_data
         end # end update password
         
-        desc "创建用户会话"
+        desc "用户会话开始"
         params do
           requires :token,     type: String,  desc: '用户TOKEN'
-          optional :type,      type: Integer, desc: '值为1或2或3；1表示APP Launch, 2表示 APP Resume，3表示 APP Suspend'
+          optional :type,      type: Integer, desc: '值为1或2或3；1表示APP Launch, 2表示 APP Resume'
           optional :loc,       type: String,  desc: '用户当前位置，值格式为：lng,lat'
           optional :network,   type: String,  desc: '用户当前的网络类型，例如：wifi, 3g, 4g'
           optional :version,   type: String,  desc: '当前客户端的版本号'
@@ -287,7 +287,7 @@ module API
           optional :model,     type: String,  desc: '设备型号，例如：iPhone 5s'
           optional :lang_code, type: String,  desc: '国家语言码，例如：zh_CN'
         end
-        post '/session/create' do
+        post '/session/begin' do
           user = authenticate!
           
           if params[:loc]
@@ -296,8 +296,8 @@ module API
             loc = nil
           end
           
-          UserSession.create!(uid: user.uid, 
-                              take_at: Time.zone.now,
+          us = UserSession.create!(uid: user.uid, 
+                              begin_time: Time.zone.now,
                               take_type: (params[:type] || 2).to_i,
                               location: loc,
                               app_version: params[:version],
@@ -311,8 +311,23 @@ module API
             
             
             
+          { code: 0, message: 'ok', { session_id: us.uniq_id } }
+        end # end post session begin
+        
+        desc "用户会话结束"
+        params do
+          requires :token,     type: String, desc: '用户TOKEN'
+          requires :session_id,type: String, desc: '会话ID'
+        end
+        post '/session/end' do
+          user = authenticate!
+          
+          us = UserSession.where(uid: user.uid, uniq_id: params[:session_id]).first
+          us.end_time = Time.zone.now
+          us.save!
+          
           render_json_no_data
-        end # end post session/create
+        end
         
         desc "VIP激活"
         params do

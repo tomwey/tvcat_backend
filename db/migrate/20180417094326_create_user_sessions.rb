@@ -3,7 +3,8 @@ class CreateUserSessions < ActiveRecord::Migration
     create_table :user_sessions do |t|
       t.integer :uid
       t.string :uniq_id
-      t.datetime :take_at
+      t.datetime :begin_time
+      t.datetime :end_time
       t.integer :take_type
       t.st_point :location, geographic: true
       t.string :app_version
