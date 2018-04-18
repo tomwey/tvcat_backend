@@ -71,6 +71,12 @@ module API
         expose :title, :slug
       end
       
+      class VipCard < Base
+        expose :code
+        expose :month
+        expose :actived_at, as: :active_time
+      end
+      
       class Page < SimplePage
         expose :body
       end

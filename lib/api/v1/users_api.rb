@@ -337,6 +337,18 @@ module API
           render_json_no_data
         end
         
+        desc "获取VIP充值列表"
+        params do
+          requires :token, type: String, desc: '用户TOKEN'
+        end
+        get :vip_charge_list do
+          user = authenticate!
+          
+          @vipcards = VipCard.where(actived_user_id: user.uid).where.not(actived_at: nil).order('actived_at desc')
+          
+          render_json(@vipcards, API::V1::Entities::VipCard)
+        end # end get vip_charge_list
+        
         desc "VIP激活"
         params do
           requires :token, type: String, desc: '用户TOKEN'
