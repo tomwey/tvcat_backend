@@ -8,10 +8,10 @@ module API
         get :config do
           
           hash = {
-            explore_url: '',
-            kefu_url: '',
-            aboutus_url: '',
-            faq_url: '',
+            explore_url: SiteConfig.app_explore_url,
+            kefu_url: SiteConfig.kefu_url,
+            aboutus_url: SiteConfig.aboutus_url,
+            faq_url: SiteConfig.faq_url,
           }
           { code: 0, message: 'ok', data: hash }
         end # end get config
