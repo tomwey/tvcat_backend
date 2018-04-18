@@ -8,4 +8,9 @@ class VipCardTask < ActiveRecord::Base
     end while self.class.exists?(:uniq_id => uniq_id)
   end
   
+  after_create :create_cards
+  def create_cards
+    CreateVipCardJob.perform_later(self.id)
+  end
+  
 end
