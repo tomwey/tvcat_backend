@@ -13,7 +13,6 @@ module API
       class UserBase < Base
         expose :uid, as: :id
         expose :private_token, as: :token
-        expose :vip_expired_at, as: :vip_expire_time
       end
       
       # 用户基本信息
@@ -44,7 +43,18 @@ module API
       end
       
       # 用户详情
-      class User < UserProfile
+      class User < UserBase
+        expose :mobile, format_with: :null
+        expose :nickname do |model, opts|
+          model.format_nickname
+        end
+        expose :avatar do |model, opts|
+          model.format_avatar_url
+        end
+        expose :vip_expired_at, as: :vip_time
+        expose :left_days do |model, opts|
+          model.left_days
+        end
         # expose :private_token, as: :token, format_with: :null
       end
       

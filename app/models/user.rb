@@ -36,6 +36,14 @@ class User < ActiveRecord::Base
     end
   end
   
+  def left_days
+    if self.vip_expired_at < Time.zone.now
+      '已过期'
+    else
+      seconds = (self.vip_expired_at - Time.zone.now).to_i
+      "还剩#{(seconds.to_f / (24 * 3600) + 1).to_i}天"
+    end
+  end
   
   def block!
     self.verified = false
