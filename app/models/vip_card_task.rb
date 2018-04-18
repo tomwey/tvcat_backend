@@ -1,4 +1,5 @@
-class UserSession < ActiveRecord::Base
+class VipCardTask < ActiveRecord::Base
+  validates :quantity, :month, :creator, presence: true
   
   before_create :generate_uniq_id
   def generate_uniq_id

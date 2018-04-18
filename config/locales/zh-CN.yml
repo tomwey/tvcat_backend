@@ -41,6 +41,8 @@
       pay_log: '交易明细'
       area: '区域'
       media_provider: '视频提供者'
+      vip_card: 'VIP激活卡'
+      vip_card_task: 'VIP生成任务'
     attributes:
       user:
         uid: 'ID'
@@ -201,10 +203,23 @@
         range: '限制范围'
       media_provider:
         name: '名字'
+
         icon: 'ICON'
         url: '链接地址'
         sort: '显示顺序'
         opened: '是否上线'
+      
+      vip_card:
+        code: '卡号'
+        month: '激活月数'
+        actived_user_id: '激活用户'
+        actived_at: '激活时间'
+        in_use: '是否可用'
+      vip_card_task:
+        uniq_id: '流水号'
+        quantity: 'VIP卡数量'
+        month: '激活月数'
+        creator: '创建人'
         
     errors:
       models:

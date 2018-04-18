@@ -22,6 +22,7 @@ index do
 end
 
 form do |f|
+  f.semantic_errors
   f.inputs do
     f.input :title
     f.input :slug
