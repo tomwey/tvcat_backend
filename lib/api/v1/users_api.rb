@@ -314,6 +314,33 @@ module API
           render_json_no_data
         end # end post session/create
         
+        desc "VIP激活"
+        params do
+          requires :token, type: String, desc: '用户TOKEN'
+          requires :code,  type: String, desc: 'VIP卡号'
+        end
+        post '/vip/active' do
+          user = authenticate!
+          
+          card = VipCard.find_by(code: params[:code])
+          if card.blank?
+            return render_error(4004, 'VIP卡不存在')
+          end
+          
+          if not card.in_use
+            return render_error(-1, 'VIP卡不可用')
+          end
+          
+          if card.actived_at.present?
+            return render_error(-1, 'VIP卡已经被激活')
+          end
+          
+          user.active_vip_card!(card)
+          
+          render_json_no_data
+          
+        end # end vip active
+        
       end # end user resource
       
     end 
