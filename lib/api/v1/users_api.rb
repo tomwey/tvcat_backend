@@ -28,9 +28,11 @@ module API
                                     screen_size: params[:screen],
                                     lang_code: params[:lang_code]
                                     )
-            device.user = User.new
+            user = User.create!
+            device.uid = user.uid
+            
             if device.save
-              render_json(device.user, API::V1::Entities::UserBase)
+              render_json(user, API::V1::Entities::UserBase)
             else
               render_error(4002, '注册失败!')
             end
