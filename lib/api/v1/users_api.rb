@@ -311,7 +311,7 @@ module API
             
             
             
-          { code: 0, message: 'ok', { session_id: us.uniq_id } }
+          { code: 0, message: 'ok', data: { session_id: us.uniq_id } }
         end # end post session begin
         
         desc "用户会话结束"
