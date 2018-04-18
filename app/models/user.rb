@@ -45,6 +45,10 @@ class User < ActiveRecord::Base
     end
   end
   
+  def vip_expired?
+    return self.vip_expired_at < Time.zone.now
+  end
+  
   def active_vip_card!(card)
     count = card.month
     

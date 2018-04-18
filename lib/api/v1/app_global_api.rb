@@ -4,13 +4,16 @@ module API
             
       resource :app, desc: 'APP相关接口' do
         desc "获取配置数据"
+        
         get :config do
-          {
+          
+          hash = {
             explore_url: '',
             kefu_url: '',
             aboutus_url: '',
             faq_url: '',
           }
+          { code: 0, message: 'ok', data: hash }
         end # end get config
         
         desc "版本检查"
