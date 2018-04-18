@@ -13,6 +13,7 @@ module API
           requires :os,    type: String, desc: '操作系统'
           requires :osv,   type: String, desc: '系统版本'
           optional :uname, type: String, desc: '设备用户名字'
+          optional :screen, type: String, desc: '设备分辨率'
           optional :lang_code, type: String, desc: '国家语言，例如：zh_CN'
         end
         post :create do
@@ -24,6 +25,7 @@ module API
                                     os: params[:os], 
                                     os_version: params[:osv],
                                     uname: params[:uname],
+                                    screen_size: params[:screen],
                                     lang_code: params[:lang_code]
                                     )
             device.user = User.new
@@ -285,6 +287,8 @@ module API
           optional :os,        type: String,  desc: '设备系统'
           optional :osv,       type: String,  desc: '设备系统版本号'
           optional :model,     type: String,  desc: '设备型号，例如：iPhone 5s'
+          optional :screen,    type: String, desc: '设备分辨率'
+          optional :uname,     type: String, desc: '设备用户名字'
           optional :lang_code, type: String,  desc: '国家语言码，例如：zh_CN'
         end
         post '/session/begin' do
@@ -307,6 +311,8 @@ module API
                               os: params[:os],
                               os_version: params[:osv],
                               model: params[:model],
+                              screen_size: params[:screen],
+                              uname: params[:uname],
                               lang_code: params[:lang_code])
             
             
