@@ -37,7 +37,7 @@ class User < ActiveRecord::Base
   end
   
   def left_days
-    if self.vip_expired_at < Time.zone.now
+    if self.vip_expired_at.blank? or self.vip_expired_at < Time.zone.now
       '已过期'
     else
       seconds = (self.vip_expired_at - Time.zone.now).to_i
@@ -46,7 +46,7 @@ class User < ActiveRecord::Base
   end
   
   def vip_expired?
-    return self.vip_expired_at < Time.zone.now
+    return self.vip_expired_at.blank? or self.vip_expired_at < Time.zone.now
   end
   
   def active_vip_card!(card)
