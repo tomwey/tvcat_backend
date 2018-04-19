@@ -1,3 +1,4 @@
+require 'rest-client'
 module API
   module V1
     class MediaAPI < Grape::API
@@ -25,9 +26,21 @@ module API
             return render_error(-1, 'VIP已过期')
           end
           
-          { code: 0, message: 'ok', data: {
-            url: "#{SiteConfig.player_parse_url}?url=#{params[:url]}", type: "url"
-          } }
+          resp = RestClient.get "#{SiteConfig.player_parse_url}", 
+                         { :params => { :url => "#{params[:url]}"
+                                      } 
+                         }
+                     
+          result = JSON.parse(resp)
+          
+          if result.blank?
+            { code: 4004, message: '未获取到播放地址' }
+          else
+            { code: 0, message: 'ok', data: {
+              url: result["url"], type: result["type"]
+            } }
+          end
+          
         end # end get player
         
       end # end resource
