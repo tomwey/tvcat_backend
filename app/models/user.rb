@@ -49,7 +49,8 @@ class User < ActiveRecord::Base
   def active_vip_card!(card)
     count = card.month
     
-    self.vip_expired_at += count.month
+    time = self.vip_expired_at || Time.zone.now
+    self.vip_expired_at = time + count.month
     self.save!
     
     card.actived_user_id = self.uid
