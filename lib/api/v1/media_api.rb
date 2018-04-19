@@ -26,7 +26,7 @@ module API
           end
           
           { code: 0, message: 'ok', data: {
-            url: "http://api.baiyug.cn/vip/index.php?url=#{params[:url]}", type: "url"
+            url: "#{SiteConfig.player_parse_url}?url=#{params[:url]}", type: "url"
           } }
         end # end get player
         
