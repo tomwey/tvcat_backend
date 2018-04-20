@@ -43,6 +43,7 @@
       media_provider: '视频提供者'
       vip_card: 'VIP激活卡'
       vip_card_task: 'VIP生成任务'
+      media_history: '观看历史'
     attributes:
       user:
         uid: 'ID'
@@ -185,7 +186,14 @@
         password: '密码'
         password_confirmation: '确认密码'
         login_in_count: '登录次数'
-        
+      media_history:
+        title: '资源名字'
+        source_url: '资源地址'
+        progress: '进度'
+        uniq_id: 'ID'
+        uid: '用户'
+        mp_id: '提供者'
+        created_at: 'at'
       page:
         title: '标题'
         body:  '内容'

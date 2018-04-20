@@ -10,4 +10,9 @@ class MediaHistory < ActiveRecord::Base
   def provider
     @provider ||= MediaProvider.find_by(uniq_id: self.mp_id)
   end
+  
+  def user
+    @user ||= User.find_by(uid: self.uid)
+  end
+  
 end
