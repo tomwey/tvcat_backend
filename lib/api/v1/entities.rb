@@ -42,6 +42,14 @@ module API
         expose :url
       end
       
+      class MediaHistory < Base
+        expose :uniq_id, as: :id
+        expose :title, :source_url
+        expose :progress, format_with: :null
+        expose :created_at, as: :time, format_with: :chinese_datetime
+        expose :provider, using: API::V1::Entities::MediaProvider
+      end
+      
       # 用户详情
       class User < UserBase
         expose :mobile, format_with: :null
