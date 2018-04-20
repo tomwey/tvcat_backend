@@ -37,7 +37,10 @@ module API
             { code: 4004, message: '未获取到播放地址' }
           else
             { code: 0, message: 'ok', data: {
-              url: result["url"], type: result["type"]
+              url: result["url"], 
+              type: result["type"],
+              src_url: params[:url],
+              title: result["title"],
             } }
           end
           
