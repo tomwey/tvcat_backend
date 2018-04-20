@@ -32,7 +32,8 @@ module API
                          { :params => { :url => "#{params[:url]}"
                                       } 
                          }
-                     
+          
+          puts resp           
           result = JSON.parse(resp)
           
           if result.blank?
