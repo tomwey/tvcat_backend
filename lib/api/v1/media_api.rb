@@ -33,7 +33,7 @@ module API
                                       } 
                          }
           
-          puts resp           
+          # puts resp
           result = JSON.parse(resp)
           
           if result.blank?
