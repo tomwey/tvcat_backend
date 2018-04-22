@@ -10,6 +10,7 @@ module API
       before do        
         is_pro = Rails.env.production?
         # 如果访问的是API文档，那么不做判断
+        puts request.path
         is_api_doc_path = request.path.include? "swagger_doc"
         encode_str = Base64.urlsafe_encode64(SiteConfig.api_key + params[:i].to_s)
         # (Time.now.to_i - params[:i].to_i) > SiteConfig.access_key_expire_in.to_i
