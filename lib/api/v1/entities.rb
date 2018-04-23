@@ -33,6 +33,14 @@ module API
         unexpose :private_token, as: :token
       end
       
+      class AppVersion < Base
+        expose :version
+        expose :os
+        expose :change_log
+        expose :app_url
+        expose :must_upgrade
+      end
+      
       class MediaProvider < Base
         expose :uniq_id, as: :id
         expose :name
