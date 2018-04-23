@@ -129,7 +129,8 @@ module API
                 kefu_url: SiteConfig.kefu_url,
                 aboutus_url: SiteConfig.aboutus_url,
                 faq_url: SiteConfig.faq_url,
-                ad_blacklist: SiteConfig.ad_blacklist.split(',')
+                ad_blacklist: SiteConfig.ad_blacklist.split(','),
+                ad_script: "var $el = $('a[id^=__a_z_]'); $el.hide();"
               }
             }
           end
