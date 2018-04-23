@@ -34,8 +34,11 @@ class User < ActiveRecord::Base
   end
   
   def left_days
-    if self.vip_expired_at.blank? or self.vip_expired_at < Time.zone.now
-      '已过期'
+    if self.vip_expired_at.blank?
+      '成为会员'
+    elsif self.vip_expired_at < Time.zone.now
+      seconds = (Time.zone.now - self.vip_expired_at).to_i
+      "过期#{(seconds.to_f / (24 * 3600) + 1).to_i}天"
     else
       seconds = (self.vip_expired_at - Time.zone.now).to_i
       "还剩#{(seconds.to_f / (24 * 3600) + 1).to_i}天到期"
