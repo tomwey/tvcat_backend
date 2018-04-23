@@ -36,7 +36,13 @@ module API
       class AppVersion < Base
         expose :version
         expose :os
-        expose :change_log
+        expose :changelog do |model, opts|
+          if model.change_log
+            model.change_log.gsub('</p><p>', '\n').gsub('<p>', '').gsub('</p>', '')
+          else
+            ''
+          end
+        end
         expose :app_url
         expose :must_upgrade
       end

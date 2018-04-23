@@ -94,9 +94,26 @@ module API
                               uname: params[:uname],
                               lang_code: params[:lang_code])
             
-            
-            
-          { code: 0, message: 'ok', data: { session_id: us.uniq_id } }
+          @app_version = AppVersion.where('version > ? and lower(os) = ?', 
+                                          params[:version], params[:os].downcase)
+                                          .where(opened: true).order('version desc').first
+          
+          result = {
+            session_id: us.uniq_id,
+            config: {
+              explore_url: SiteConfig.app_explore_url,
+              kefu_url: SiteConfig.kefu_url,
+              aboutus_url: SiteConfig.aboutus_url,
+              faq_url: SiteConfig.faq_url,
+              ad_blacklist: SiteConfig.ad_blacklist.split(',')
+            }
+          }
+          
+          if @app_version
+            result['new_version'] = API::V1::Entities::AppVersion.represent @app_version
+          end
+          
+          { code: 0, message: 'ok', data: result }
         end # end post session begin
         
         desc "用户会话结束"
