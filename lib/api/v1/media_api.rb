@@ -20,6 +20,7 @@ module API
         params do
           requires :url, type: String, desc: '播放资源地址'
           requires :token, type: String, desc: '用户TOKEN'
+          requires :mp_id, type: Integer, desc: '资源提供方ID'
         end
         get :player do
           user = authenticate!
@@ -39,6 +40,20 @@ module API
           if result.blank?
             { code: 4004, message: '未获取到播放地址' }
           else
+            
+            provider = MediaProvider.find_by(uniq_id: params[:mp_id])
+            if provider.present?
+              has_saved = MediaHistory.where(uid: user.uid, mp_id: provider.uniq_id, source_url: params[:url]).count > 0
+
+              if not has_saved
+                MediaHistory.create!(uid: user.uid, 
+                  mp_id: provider.uniq_id, 
+                  source_url: params[:url], 
+                  title: result["title"], 
+                  progress: nil)
+              end
+            end
+            
             { code: 0, message: 'ok', data: {
               url: result["url"], 
               type: result["type"],
@@ -64,31 +79,31 @@ module API
           render_json(@histories, API::V1::Entities::MediaHistory)
         end # end get histories
         
-        desc "保存浏览历史"
-        params do
-          requires :token, type: String, desc: '用户TOKEN'
-          requires :mp_id, type: Integer, desc: '资源提供方ID'
-          requires :title, type: String, desc: '资源名字'
-          requires :source_url, type: String, desc: '资源地址'
-          optional :progress, type: String, desc: '观看进度'
-        end
-        post '/history/create' do
-          user = authenticate!
-          
-          provider = MediaProvider.find_by(uniq_id: params[:mp_id])
-          if provider.blank?
-            return render_error(4004, '资源提供方不存在')
-          end
-          
-          has_saved = MediaHistory.where(uid: user.uid, mp_id: provider.uniq_id, source_url: params[:source_url]).count > 0
-          
-          if not has_saved
-            MediaHistory.create!(uid: user.uid, mp_id: provider.uniq_id, source_url: params[:source_url], title: params[:title], progress: params[:progress])
-          end
-          
-          render_json_no_data
-          
-        end # end post history create
+        # desc "保存浏览历史"
+        # params do
+        #   requires :token, type: String, desc: '用户TOKEN'
+        #   requires :mp_id, type: Integer, desc: '资源提供方ID'
+        #   requires :title, type: String, desc: '资源名字'
+        #   requires :source_url, type: String, desc: '资源地址'
+        #   optional :progress, type: String, desc: '观看进度'
+        # end
+        # post '/history/create' do
+        #   user = authenticate!
+        #
+        #   provider = MediaProvider.find_by(uniq_id: params[:mp_id])
+        #   if provider.blank?
+        #     return render_error(4004, '资源提供方不存在')
+        #   end
+        #
+        #   has_saved = MediaHistory.where(uid: user.uid, mp_id: provider.uniq_id, source_url: params[:source_url]).count > 0
+        #
+        #   if not has_saved
+        #     MediaHistory.create!(uid: user.uid, mp_id: provider.uniq_id, source_url: params[:source_url], title: params[:title], progress: params[:progress])
+        #   end
+        #
+        #   render_json_no_data
+        #
+        # end # end post history create
         
       end # end resource
       
