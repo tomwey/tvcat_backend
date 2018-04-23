@@ -110,7 +110,28 @@ module API
           }
           
           if @app_version
-            result['new_version'] = API::V1::Entities::AppVersion.represent @app_version
+            result = {
+              session_id: us.uniq_id,
+              config: {
+                explore_url: SiteConfig.app_explore_url,
+                kefu_url: SiteConfig.kefu_url,
+                aboutus_url: SiteConfig.aboutus_url,
+                faq_url: SiteConfig.faq_url,
+                ad_blacklist: SiteConfig.ad_blacklist.split(',')
+              },
+              new_version: API::V1::Entities::AppVersion.represent(@app_version)
+            }
+          else
+            result = {
+              session_id: us.uniq_id,
+              config: {
+                explore_url: SiteConfig.app_explore_url,
+                kefu_url: SiteConfig.kefu_url,
+                aboutus_url: SiteConfig.aboutus_url,
+                faq_url: SiteConfig.faq_url,
+                ad_blacklist: SiteConfig.ad_blacklist.split(',')
+              }
+            }
           end
           
           { code: 0, message: 'ok', data: result }

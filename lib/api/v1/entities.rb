@@ -38,9 +38,10 @@ module API
         expose :os
         expose :changelog do |model, opts|
           if model.change_log
-            model.change_log.gsub('</p><p>', '\n').gsub('<p>', '').gsub('</p>', '')
+            arr = model.change_log.split('</p><p>')
+            arr.map { |s| s.gsub('</p>', '').gsub('<p>', '') }
           else
-            ''
+            []
           end
         end
         expose :app_url
