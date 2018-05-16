@@ -42,7 +42,7 @@ gem 'rack-attack'
 # gem "cocoon"
 
 # 获取用户的user agent
-# gem 'rack-user_agent'
+gem 'rack-user_agent'
 
 # 支持解析xml
 # gem 'actionpack-xml_parser'
