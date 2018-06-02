@@ -13,7 +13,7 @@ module API
             aboutus_url: SiteConfig.aboutus_url,
             faq_url: SiteConfig.faq_url,
             ad_blacklist: SiteConfig.ad_blacklist.split(','),
-            ad_script: "var $el = $('a[id^=__a_z_]'); $el.hide();"
+            ad_script: "var $el = $('a[id^=__a_z_]'); $el.hide();var vids = document.getElementsByTagName('video');vids.width=100%;"
           }
           { code: 0, message: 'ok', data: hash }
         end # end get config
