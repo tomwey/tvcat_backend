@@ -29,12 +29,9 @@ module API
             return render_error(-1, 'VIP已过期')
           end
           
-          resp = RestClient.get "#{SiteConfig.player_parse_url}", 
-                         { :params => { :url => "#{params[:url]}"
-                                      } 
-                         }
+          resp = RestClient.get "#{SiteConfig.player_parse_url}?url=#{params[:url]}", { accept: :json }
           
-          puts resp
+          # puts resp
           
           result = JSON.parse(resp)
           
