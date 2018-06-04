@@ -57,6 +57,7 @@ module API
               type: result["type"],
               src_url: params[:url],
               title: result["title"],
+              success: result["success"]
             } }
           end
           
