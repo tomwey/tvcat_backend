@@ -58,7 +58,7 @@ module API
               src_url: params[:url],
               title: result["title"],
               success: result["success"],
-              progress: (history.try(:progress) || 0).to_i
+              progress: (history.try(:progress) || 0).to_s
             } }
           end
           
@@ -68,7 +68,7 @@ module API
         params do
           requires :url, type: String, desc: '播放资源地址'
           requires :token, type: String, desc: '用户TOKEN'
-          optional :progress, type: Integer, desc: '播放进度'
+          optional :progress, type: String, desc: '播放进度'
         end
         post '/play/progress' do
           user = authenticate!
