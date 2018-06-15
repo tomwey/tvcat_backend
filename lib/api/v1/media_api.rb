@@ -26,7 +26,7 @@ module API
           user = authenticate!
           
           if user.vip_expired?
-            return render_error(-1, 'VIP已过期')
+            return render_error(6008, 'VIP已过期')
           end
           
           resp = RestClient.get "#{SiteConfig.player_parse_url}?url=#{params[:url]}", { accept: :json }
