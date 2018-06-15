@@ -41,10 +41,10 @@ module API
             
             provider = MediaProvider.find_by(uniq_id: params[:mp_id])
             if provider.present?
-              has_saved = MediaHistory.where(uid: user.uid, mp_id: provider.uniq_id, source_url: params[:url]).count > 0
+              history = MediaHistory.where(uid: user.uid, mp_id: provider.uniq_id, source_url: params[:url]).first
 
-              if not has_saved
-                MediaHistory.create!(uid: user.uid, 
+              if history.blank?
+                history = MediaHistory.create!(uid: user.uid, 
                   mp_id: provider.uniq_id, 
                   source_url: params[:url], 
                   title: result["title"], 
@@ -57,11 +57,32 @@ module API
               type: result["type"],
               src_url: params[:url],
               title: result["title"],
-              success: result["success"]
+              success: result["success"],
+              progress: (history.try(:progress) || 0).to_i
             } }
           end
           
         end # end get player
+        
+        desc "上传播放进度"
+        params do
+          requires :url, type: String, desc: '播放资源地址'
+          requires :token, type: String, desc: '用户TOKEN'
+          optional :progress, type: Integer, desc: '播放进度'
+        end
+        post '/play/progress' do
+          user = authenticate!
+          
+          history = MediaHistory.where(uid: user.uid, source_url: params[:url]).first
+          if history.blank?
+            return render_error(4004, '未找到观看记录')
+          end
+          
+          history.progress = params[:progress]
+          history.save!
+          
+          render_json_no_data
+        end # end post play/progress 
         
         desc "获取所有浏览历史"
         params do
