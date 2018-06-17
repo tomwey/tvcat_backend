@@ -66,6 +66,21 @@ module API
       # 返回当前用户
       current_user
     end # end authenticate!
+    
+    # 当前登录用户
+    def current_agent
+      token = params[:token]
+      @current_agent ||= Agent.where(private_token: token).first
+    end # end current_agent
+  
+    # 认证用户
+    def authenticate_agent!
+      error!({"code" => 401, "message" => "账号未登录"}, 200) unless current_agent
+      error!({"code" => -10, "message" => "您的账号已经被禁用"}, 200) unless current_agent.verified
+    
+      # 返回当前用户
+      current_agent
+    end # end authenticate!
   
     # 手机号验证
     def check_mobile(mobile)

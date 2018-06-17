@@ -6,6 +6,7 @@ module API
         format_with(:chinese_date) { |v| v.blank? ? "" : v.strftime('%Y-%m-%d') }
         format_with(:chinese_datetime) { |v| v.blank? ? "" : v.strftime('%Y-%m-%d %H:%M:%S') }
         format_with(:money_format) { |v| v.blank? ? 0.00 : ('%.2f' % v) }
+        format_with(:rmb_format) { |v| v.blank? ? 0.00 : ('%.2f' % (v / 100.0)) }
         expose :id
         # expose :created_at, format_with: :chinese_datetime
       end # end Base
@@ -13,6 +14,19 @@ module API
       class UserBase < Base
         expose :uid, as: :id
         expose :private_token, as: :token
+      end
+      
+      class Agent < Base
+        expose :uniq_id, as: :id
+        expose :name
+        expose :mobile
+        expose :level
+        expose :level_name do |model,opts|
+          %w(一级代理 二级代理 三级代理)[model.level]
+        end
+        expose :earn, format_with: :rmb_format
+        expose :balance, format_with: :rmb_format
+        # expose :private_token, as: :token
       end
       
       # 用户基本信息
@@ -55,6 +69,25 @@ module API
           model.icon.url(:large)
         end
         expose :url
+      end
+      
+      class VipPlan < Base
+        expose :uniq_id, as: :id
+        expose :name
+        expose :_price, as: :price
+      end
+      
+      class Order < Base
+        expose :uniq_id, as: :id
+        expose :vip_plan, using: API::V1::Entities::VipPlan
+        expose :quantity
+        expose :created_at, as: :time, format_with: :chinese_datetime
+        expose :agent_name do |model, opts|
+          model.agent.try(:name)
+        end
+        expose :agent_earns do |model, opts|
+          model.agent_earns.map { |earn| '%.2f' % (earn.money / 100.0) }
+        end
       end
       
       class MediaHistory < Base
