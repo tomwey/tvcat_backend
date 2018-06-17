@@ -81,6 +81,17 @@ p, h2 {
 //  margin-bottom: 30px;
   font-size: 1.2em;
 }
+
+.download-image {
+  display: block;
+  width: 100%;
+  margin: 0;
+  text-align: center;
+  img {
+    max-width: 100%;
+  }
+}
+
 .app-download {
   text-align: center;
   > .btn {
