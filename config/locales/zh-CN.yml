@@ -46,6 +46,9 @@
       media_history: '观看历史'
       agent: '分销商'
       vipcard_theme: 'VIP卡主题'
+      vip_plan: 'VIP套餐'
+      order: 'VIP卡订单'
+      card_ad: '卡封面广告'
     attributes:
       user:
         uid: 'ID'
@@ -73,6 +76,25 @@
         level: '代理级别'
         earn: '收入'
         balance: '余额'
+        
+      vip_plan:
+        name: '套餐名'
+        days: '使用天数'
+        price: '套餐价格'
+      card_ad:
+        title: '广告描述'
+        cover: '封面图'
+        active_count: '激活数'
+        opened: '是否启用'
+      order:
+        uniq_id: 'ID'
+        vip_plan_id: 'VIP套餐'
+        quantity: 'VIP生成数量'
+        agent_id: '所属代理'
+        card_ads: '卡封面广告'
+        total_money: '总金额'
+        creator: '操作员'
+        opened: '是否打开'
         
       message:
         message_template_id: '所属模板'
