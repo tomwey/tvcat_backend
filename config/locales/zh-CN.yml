@@ -44,6 +44,8 @@
       vip_card: 'VIP激活卡'
       vip_card_task: 'VIP生成任务'
       media_history: '观看历史'
+      agent: '分销商'
+      vipcard_theme: 'VIP卡主题'
     attributes:
       user:
         uid: 'ID'
@@ -60,6 +62,18 @@
         created_at: '注册时间'
         total_prize_count: '抽奖总次数'
         prized_count: '抽过的次数'
+      agent:
+        name: '名字'
+        mobile: '手机'
+        login: '登录名'
+        password: '密码'
+        password_confirmation: '确认密码'
+        private_token: 'TOKEN'
+        verified: '账号启用'
+        level: '代理级别'
+        earn: '收入'
+        balance: '余额'
+        
       message:
         message_template_id: '所属模板'
         content: '内容'
