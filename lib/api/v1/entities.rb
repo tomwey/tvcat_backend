@@ -81,17 +81,22 @@ module API
         expose :_price, as: :price
       end
       
+      class AgentEarn < Base
+        expose :uniq_id, as: :id
+        expose :title
+        expose :money, format_with: :rmb_format
+      end
+      
       class Order < Base
         expose :uniq_id, as: :id
         expose :vip_plan, using: API::V1::Entities::VipPlan
         expose :quantity
+        expose :sent_count
         expose :created_at, as: :time, format_with: :chinese_datetime
         expose :agent_name do |model, opts|
           model.agent.try(:name)
         end
-        expose :agent_earns do |model, opts|
-          model.agent_earns.map { |earn| '%.2f' % (earn.money / 100.0) }
-        end
+        expose :agent_earns, using: API::V1::Entities::AgentEarn
       end
       
       class MediaHistory < Base

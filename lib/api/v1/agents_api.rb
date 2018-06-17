@@ -28,7 +28,7 @@ module API
         get :home do
           agent = authenticate_agent!
           
-          @orders = Order.where(opened: true, agent_id: agent.uniq_id).limit(10)
+          @orders = Order.where(opened: true, agent_id: agent.uniq_id).order('created_at desc').limit(10)
           
           { code: 0, message: 'ok', data: {
             agent: API::V1::Entities::Agent.represent(agent),
