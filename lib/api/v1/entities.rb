@@ -20,12 +20,16 @@ module API
         expose :uniq_id, as: :id
         expose :name
         expose :mobile
+        expose :login
         expose :level
         expose :level_name do |model,opts|
           %w(一级代理 二级代理 三级代理)[model.level]
         end
         expose :earn, format_with: :rmb_format
         expose :balance, format_with: :rmb_format
+        expose :today_earn, format_with: :rmb_format
+        expose :total_orders
+        expose :today_orders
         # expose :private_token, as: :token
       end
       

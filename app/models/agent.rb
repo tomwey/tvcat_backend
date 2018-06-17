@@ -63,4 +63,19 @@ class Agent < ActiveRecord::Base
     @parent ||= Agent.find_by(uniq_id: self.parent_id)
   end
   
+  def today_earn
+    now = Time.zone.now
+    
+    AgentEarn.where(created_at: now.beginning_of_day..now.end_of_day).pluck(:money).sum
+  end
+  
+  def total_orders
+    Order.where(agent_id: self.uniq_id).count
+  end
+  
+  def today_orders
+    now = Time.zone.now
+    Order.where(agent_id: self.uniq_id).where(created_at: now.beginning_of_day..now.end_of_day).count
+  end
+  
 end
