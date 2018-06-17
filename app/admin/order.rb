@@ -9,14 +9,14 @@ index do
   column('#',:id) 
   column :uniq_id
   column 'VIP套餐' do |o|
-    raw("#{o.vip_plan.try(:name)}<br>价格: #{o.vip_plan._price}元/个")
+    raw("#{o.vip_plan.try(:name)}")
   end
-  column raw("<br>数量<br>总金额<br><br>") do |o|
-    raw("数量: #{o.quantity}<br>总金额: #{'%.2f' % (o.total_money / 100.0) + '元'}")
+  column raw("<br>单价<br>数量<br>总价<br><br>") do |o|
+    raw("单价: #{o.vip_plan._price}元/个<br>数量: #{o.quantity}<br>总价: #{'%.2f' % (o.total_money / 100.0) + '元'}")
   end
   
   column '代理佣金' do |o|
-    raw("分销商: #{o.agent.name}<br>级别: L#{o.agent.level}<br>佣金收入: #{'%.2f' % (o.agent_earn / 100.0) + '元'}")
+    raw("分销商: #{o.agent.name}<br>级别: L#{o.agent.level}<br>#{o.agent_earns_display.join('<br>')}")
   end
   
   column :opened
