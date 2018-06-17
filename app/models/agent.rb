@@ -51,8 +51,8 @@ class Agent < ActiveRecord::Base
     money = (order.total_money / 100.0) * (ratio.to_i / 100.0)
     money = (money * 100).to_i
     
-    prefix = %w(一 二 三)[index]
-    AgentEarn.create!(agent_id: self.uniq_id, money: money, title: "#{prefix}级代理佣金", earnable_type: order.class, earnable_id: order.uniq_id)
+    prefix = %w(1 2 3)[index]
+    AgentEarn.create!(agent_id: self.uniq_id, money: money, title: "#{prefix}级佣金", earnable_type: order.class, earnable_id: order.uniq_id)
   end
   
   def self.agent_awards
