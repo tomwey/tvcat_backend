@@ -46,7 +46,7 @@ class Agent < ActiveRecord::Base
     
     ratio = awards[index].to_i
     
-    return 0 if self.level == 0
+    # return 0 if self.level == 0
     
     money = (order.total_money / 100.0) * (ratio.to_i / 100.0)
     money = (money * 100).to_i
