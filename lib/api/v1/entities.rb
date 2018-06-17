@@ -422,16 +422,26 @@ module API
         end
       end
       
-      class UserCard < Base
+      class CardAd < Base
         expose :uniq_id, as: :id
         expose :title
-        expose :image do |model, opts|
-          model.image.blank? ? '' : model.image.url(:large)
+        expose :cover do |model,opts|
+          model.cover.url(:large)
         end
-        expose :body_url
-        expose :expired_at, as: :expire_time, format_with: :chinese_date
-        expose :get_time, format_with: :chinese_datetime
-        expose :created_at, as: :time, format_with: :chinese_datetime
+      end
+      
+      class UserCard < Base
+        expose :uniq_id, as: :id
+        expose :vip_card_plan, as: :vip_plan, using: API::V1::Entities::VipPlan
+        expose :card_ad, using: API::V1::Entities::CardAd
+        # expose :title
+        # expose :image do |model, opts|
+        #   model.image.blank? ? '' : model.image.url(:large)
+        # end
+        # expose :body_url
+        # expose :expired_at, as: :expire_time, format_with: :chinese_date
+        # expose :get_time, format_with: :chinese_datetime
+        # expose :created_at, as: :time, format_with: :chinese_datetime
       end
       
       class SimpleUserCard < Base
