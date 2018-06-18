@@ -1,0 +1,19 @@
+<div class="card-box">
+  <% @cards.each do |card| %>
+  <div class="user-card">
+    <%= image_tag card.card_ad.cover.url(:large), class: 'cover' %>
+    <div class="row card-info">
+      <div class="col col-xs-8">
+        <h2 class="<%= card.used_at.present? ? '' : 'adjust-padding' %>"><%= card.vip_card_plan.name %></h2>
+      </div>
+      <div class="col col-xs-4" style="text-align:right;">
+        <% if card.used_at.present? %>
+        <span class="used-tip">已使用</span>
+        <% else %>
+        <a onclick="App.useCard('<%= card.uniq_id %>', '<%= @user.uid %>');" class="btn btn-danger">立即使用</a>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <% end %>
+</div>

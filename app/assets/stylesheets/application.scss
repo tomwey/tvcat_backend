@@ -98,3 +98,54 @@ p, h2 {
     width: 68.2%;
   }
 }
+
+.card-box {
+  padding: 10px;
+//  background: rgb(247,247,247);
+  .user-card {
+    margin-bottom: 10px;
+    img {
+      max-width: 100%;
+      width: 100%;
+    }
+    
+    box-shadow: 0 0 1px rgba(0,0,0,0.3);
+    
+    .card-info {
+      padding: 15px;
+    }
+    
+    .btn-danger {
+      background-color: rgb(111, 197, 184);
+      border-color: rgb(111, 197, 184);
+    }
+    
+    h2,p {
+      margin: 0;
+      padding: 0;
+      
+    }
+    
+    .used-tip {
+      font-size: 16px;
+      color: rgb(111, 197, 184);
+    }
+    
+    h2 {
+      font-size: 16px;
+      font-weight: normal;
+      color: #333;
+      padding-top: 3px;
+//      padding-top: 12px;
+    }
+    
+    .adjust-padding {
+      padding-top: 12px;
+    }
+    
+    p {
+      font-size: 18px;
+      color: rgb(111, 197, 184);
+    }
+  }
+}

@@ -35,6 +35,21 @@ window.App =
     if token
       window.localStorage.setItem('token', token)
   
+  useCard: (cid, uid) ->
+    $.ajax
+      url: "/card/use"
+      type: "POST"
+      data: { uid: uid, id: cid }
+      success: (re) ->
+        # console.log(re)
+        if re == '1'
+          window.location.href = "/cards?uid=" + uid
+        else
+          alert(re)
+      error: (er) ->
+        # console.log(er)
+        alert('VIP激活失败')
+  
   viewHB: (hbid, i, ak) ->
     successCallback = (pos) ->
       App._viewHB(hbid, "#{pos.lng},#{pos.lat}", i, ak);

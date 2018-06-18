@@ -43,4 +43,38 @@ class HomeController < ApplicationController
     end
   end
   
+  def user_cards
+    @user = User.find_by(uid: params[:uid])
+    if @user.blank?
+      render text: '用户不存在', status: 404, layout: false
+      return
+    end
+    
+    @cards = UserCard.where(user_id: @user.uid).order('id desc')
+  end
+  
+  def use_card
+    @user = User.find_by(uid: params[:uid])
+    if @user.blank?
+      render text: '用户不存在'
+      return
+    end
+    
+    card = UserCard.where(user_id: @user.uid, uniq_id: params[:id]).first
+    if card.blank?
+      render text: 'VIP卡不存在'
+      return
+    end
+    
+    if card.used_at.present?
+      render text: 'VIP卡已经激活'
+      return
+    end
+    
+    card.used_at = Time.zone.now
+    card.save!
+    
+    render text: '1'
+  end
+  
 end
