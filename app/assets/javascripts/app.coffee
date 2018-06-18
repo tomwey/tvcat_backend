@@ -43,6 +43,7 @@ window.App =
       success: (re) ->
         # console.log(re)
         if re == '1'
+          alert('VIP激活成功')
           window.location.href = "/cards?uid=" + uid
         else
           alert(re)
