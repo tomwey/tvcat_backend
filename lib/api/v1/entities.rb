@@ -434,6 +434,7 @@ module API
         expose :uniq_id, as: :id
         expose :vip_card_plan, as: :vip_plan, using: API::V1::Entities::VipPlan
         expose :card_ad, using: API::V1::Entities::CardAd
+        expose :user, using: API::V1::Entities::User
         # expose :title
         # expose :image do |model, opts|
         #   model.image.blank? ? '' : model.image.url(:large)

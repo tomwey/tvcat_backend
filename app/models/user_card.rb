@@ -15,6 +15,10 @@ class UserCard < ActiveRecord::Base
     @card_ad ||= CardAd.find_by(uniq_id: self.card_ad_id)
   end
   
+  def user
+    @user ||= User.find_by(uid: self.user_id)
+  end
+  
   def order
     @order ||= Order.find_by(uniq_id: self.order_id)
   end
