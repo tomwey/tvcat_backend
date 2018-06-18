@@ -23,6 +23,17 @@ module API
           { code: 0, message: 'ok', data: { token: agent.private_token } }
         end # end login
         
+        desc "获取代理商个人信息"
+        params do
+          requires :token, type: String, desc: 'TOKEN'
+        end
+        get :me do
+          agent = authenticate_agent!
+          
+          render_json(agent, API::V1::Entities::Agent)
+          
+        end # end get me
+        
         desc "获取代理商首页信息"
         params do
           requires :token, type: String, desc: 'TOKEN'
