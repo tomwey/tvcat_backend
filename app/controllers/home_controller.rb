@@ -50,7 +50,7 @@ class HomeController < ApplicationController
       return
     end
     
-    @cards = UserCard.where(user_id: @user.uid).order('id desc')
+    @cards = UserCard.where(user_id: @user.uid).order('sent_at desc, id desc')
   end
   
   def use_card
@@ -73,6 +73,22 @@ class HomeController < ApplicationController
     
     card.used_at = Time.zone.now
     card.save!
+    
+    # 更新用户的有效期
+    days = card.vip_card_plan.try(:days) || 0
+    if @user.vip_expired_at.blank?
+      @user.vip_expired_at = Time.zone.now + days.days
+    else
+      @user.vip_expired_at = @user.vip_expired_at + days.days
+    end
+    
+    @user.save!
+    
+    # 更新广告的激活次数
+    if card.card_ad
+      card.card_ad.active_count = card.card_ad.active_count + 1
+      card.card_ad.save!
+    end
     
     render text: '1'
   end

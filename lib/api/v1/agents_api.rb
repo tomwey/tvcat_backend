@@ -108,6 +108,7 @@ module API
           end
           
           card.user_id = user.uid
+          card.sent_at = Time.zone.now
           card.save!
           
           render_json_no_data
