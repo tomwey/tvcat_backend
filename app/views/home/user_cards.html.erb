@@ -1,4 +1,7 @@
 <div class="card-box">
+  <% if @cards.empty? %>
+  <div class="empty-error-box">无VIP卡可用</div>
+  <% end %>
   <% @cards.each do |card| %>
   <div class="user-card">
     <%= image_tag card.card_ad.cover.url(:large), class: 'cover' %>
