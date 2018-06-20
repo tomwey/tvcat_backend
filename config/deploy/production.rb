@@ -7,11 +7,11 @@
 set :stage, :production
 set :branch, 'master'
 
-role :app, %w{deployer@120.132.57.133}
-role :web, %w{deployer@120.132.57.133}
-role :db,  %w{deployer@120.132.57.133}
+role :app, %w{deployer@tvcat.co}
+role :web, %w{deployer@tvcat.co}
+role :db,  %w{deployer@tvcat.co}
 
-set :server_name, "tvcat.small-best.com"
+set :server_name, "tvcat.co"
 # set :port, "80" # 默认都是80端口
 
 set :full_app_name, "#{fetch(:application)}_#{fetch(:stage)}"
@@ -23,9 +23,10 @@ set :full_app_name, "#{fetch(:application)}_#{fetch(:stage)}"
 # server list. The second argument is a, or duck-types, Hash and is
 # used to set extended properties on the server.
 
-server '120.132.57.133', user: "deployer", roles: %w{web app db}, primary: true
+server 'tvcat.co', user: "deployer", roles: %w{web app db}, primary: true
 
-set :deploy_to, "/data/www/apps/#{fetch(:full_app_name)}"
+set :deploy_to, "/home/#{fetch(:deploy_user)}/apps/#{fetch(:full_app_name)}"
+#"/data/www/apps/#{fetch(:full_app_name)}"
 #"/home/#{fetch(:deploy_user)}/apps/#{fetch(:full_app_name)}"
 
 set :rails_env, :production
