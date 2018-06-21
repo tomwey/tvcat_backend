@@ -8,6 +8,9 @@ Rails.application.routes.draw do
   get 'app/download' => 'home#download'
   get 'app/install'  => 'home#install'
   
+  # get parseurl/error?url=xxxxx
+  get 'parseurl/error' => 'home#parse_error' 
+  
   # 网页文档
   resources :pages, path: :p, only: [:show]
   

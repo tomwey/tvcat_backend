@@ -43,6 +43,13 @@ class HomeController < ApplicationController
     end
   end
   
+  def parse_error
+    url   = params[:url]
+    token = params[:token]
+    
+    UrlParseError.create(source_url: url, uid: User.find_by(private_token: token).try(:uid))
+  end
+  
   def user_cards
     @user = User.find_by(uid: params[:uid])
     if @user.blank?
