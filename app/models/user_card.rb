@@ -11,6 +11,14 @@ class UserCard < ActiveRecord::Base
     end while self.class.exists?(:uniq_id => uniq_id)
   end
   
+  after_create :increment_order_sent_count
+  def increment_order_sent_count
+    if order
+      order.sent_count += 1
+      order.save!
+    end
+  end
+  
   def card_ad
     @card_ad ||= CardAd.find_by(uniq_id: self.card_ad_id)
   end

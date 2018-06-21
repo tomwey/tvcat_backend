@@ -87,7 +87,64 @@ module API
         end # get cards 
         
         desc "获取VIP订单"
+        params do
+          requires :token, type: String, desc: 'TOKEN'
+          optional :type,  type: Integer, desc: '获取订单的类型，0表示未发完的，1表示已经发送完毕的订单'
+        end
+        get :orders do
+          agent = authenticate_agent!
+          
+          @orders = Order.where(opened: true, agent_id: agent.uniq_id).order('id desc')
+          type = (params[:type] || 0).to_i
+          
+          if type == 0
+            @orders = @orders.where('quantity > sent_count')
+          else
+            @orders = @orders.where('quantity <= sent_count')
+          end
+          
+          render_json(@orders, API::V1::Entities::Order)
+          
+        end # end get orders
         
+        desc "发多张卡给用户"
+        params do
+          requires :token, type: String, desc: 'TOKEN'
+          requires :id, type: Integer, desc: '订单ID'
+          requires :uids, type: String, desc: '多个用户的ID，用英文逗号分隔'
+          optional :need_active, type: Integer, desc: '是否直接激活用户的会员卡, 0表示不激活，1表示激活'
+        end
+        post :send_cards do
+          agent = authenticate_agent!
+          
+          order = Order.find_by(uniq_id: params[:id])
+          if order.blank? or !order.opened
+            return render_error(4004, '订单不存在')
+          end
+          
+          if order.quantity <= order.sent_count
+            return render_error(3001, '当前订单没有可用的VIP卡')
+          end
+          
+          uids = params[:uids].split(',')
+          
+          users = User.where(verified: true, uid: uids)
+          
+          users.each do |user|
+            uc = UserCard.create!(order_id: order.uniq_id, 
+                                  sent_at: Time.zone.now, 
+                                  card_ad_id: order.card_ads.sample, 
+                                  user_id: user.uid)
+                                  
+            if (params[:need_active] || 0).to_i == 1
+              uc.used_at = Time.zone.now
+              uc.save!
+            end
+          end
+          
+          render_json(order, API::V1::Entities::Order)
+          
+        end # end post cards
         
         desc "发卡"
         params do
