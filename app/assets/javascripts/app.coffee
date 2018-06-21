@@ -41,15 +41,12 @@ window.App =
       type: "POST"
       data: { uid: uid, id: cid }
       success: (re) ->
-        # console.log(re)
         if re == '1'
-          alert('VIP激活成功')
-          window.location.href = "/cards?uid=" + uid
+          window.location.href = "/cards?uid=" + uid + "&code=0&msg=" + "VIP激活成功"
         else
-          alert(re)
+          window.location.href = "/cards?uid=" + uid + "&code=1600&msg=" + re
       error: (er) ->
-        # console.log(er)
-        alert('VIP激活失败')
+        window.location.href = "/cards?uid=" + uid + "&code=500&msg=#{er}"
   
   viewHB: (hbid, i, ak) ->
     successCallback = (pos) ->
