@@ -73,6 +73,34 @@ class Agent < ActiveRecord::Base
     Order.where(agent_id: self.uniq_id).count
   end
   
+  def child_count
+    # child_ids = Agent.where(parent_id: self.uniq_id).pluck(:uniq_id)
+    # l0_count = child_ids.size
+    index = self.level
+    sum = 0
+    
+    child_ids = [self.uniq_id]
+    
+    loop do
+      if child_ids.empty?
+        break
+      end
+      
+      child_ids = Agent.where(parent_id: child_ids).pluck(:uniq_id)
+      puts child_ids
+      
+      sum += child_ids.size
+    end
+    
+    sum
+    
+  end
+  
+  def total_user_cards
+    order_ids = Order.where(opened: true, agent_id: self.uniq_id).pluck(:uniq_id)
+    UserCard.where.not(used_at: nil).where(order_id: order_ids).count
+  end
+  
   def today_orders
     now = Time.zone.now
     Order.where(agent_id: self.uniq_id).where(created_at: now.beginning_of_day..now.end_of_day).count

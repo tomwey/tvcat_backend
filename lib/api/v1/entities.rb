@@ -29,7 +29,9 @@ module API
         expose :balance, format_with: :rmb_format
         expose :today_earn, format_with: :rmb_format
         expose :total_orders
-        expose :today_orders
+        expose :child_count
+        expose :total_user_cards
+        # expose :today_orders
         # expose :private_token, as: :token
       end
       
