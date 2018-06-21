@@ -86,6 +86,9 @@ module API
           
         end # get cards 
         
+        desc "获取VIP订单"
+        
+        
         desc "发卡"
         params do
           requires :token, type: String, desc: 'TOKEN'

@@ -20,7 +20,7 @@ class Order < ActiveRecord::Base
   end
 
   def create_cards!
-    left_count = self.quantity - self.sent_count
+    left_count = self.quantity - self.join_count
     
     if left_count <= 0
       return
@@ -32,7 +32,7 @@ class Order < ActiveRecord::Base
       count = count + 1
     end
     
-    self.sent_count = count
+    self.join_count = count
     self.save!
     
   end
