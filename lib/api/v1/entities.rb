@@ -31,6 +31,7 @@ module API
         expose :total_orders
         expose :child_count
         expose :total_user_cards
+        expose :created_at, as: :time, format_with: :chinese_datetime
         # expose :today_orders
         # expose :private_token, as: :token
       end
