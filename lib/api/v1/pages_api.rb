@@ -1,7 +1,7 @@
 module API
   module V1
     class PagesAPI < Grape::API
-      resource :pages, desc: '网页相关接口' do
+      resource :p, desc: '网页相关接口' do
         desc "获取某个网页的数据"
         params do
           requires :slug, type: String, desc: '网页文档标识'
