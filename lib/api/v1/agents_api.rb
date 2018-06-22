@@ -23,6 +23,62 @@ module API
           { code: 0, message: 'ok', data: { token: agent.private_token } }
         end # end login
         
+        desc "获取我的下级分销商"
+        params do
+          requires :token, type: String, desc: 'TOKEN'
+        end
+        get :children do
+          agent = authenticate_agent!
+          
+          if agent.level == 2
+            return render_json([], API::V1::Entities::Agent)
+          end
+          
+          child_ids = [agent.uniq_id]
+          tmp = []
+          loop do
+            if child_ids.empty?
+              break
+            end
+            
+            child_ids = Agent.where(verified: true, parent_id: child_ids).pluck(:uniq_id)
+            if child_ids.any?
+              tmp += child_ids
+            end
+          end
+          
+          @agents = Agent.where(uniq_id: tmp).order('id asc')
+          
+          render_json(@agents, API::V1::Entities::Agent)
+          
+        end # end get children
+        
+        desc "创建代理"
+        params do
+          requires :token,    type: String, desc: 'TOKEN'
+          requires :name,     type: String, desc: '代理人名字'
+          requires :mobile,   type: String, desc: '代理人手机'
+          requires :login,    type: String, desc: '登录名'
+          requires :password, type: String, desc: '密码'
+        end
+        post :create_child do
+          agent = authenticate_agent!
+          
+          if agent.level == 2
+            return render_error(4003, '对不起，3级分销商不能创建下级分销商')
+          end
+          
+          new_agent = Agent.create!(name: params[:name], 
+                        mobile: params[:mobile], 
+                        level: agent.level + 1, 
+                        parent_id: agent.uniq_id,
+                        login: params[:login],
+                        password: params[:password],
+                        password_confirmation: params[:password]
+                        )
+          render_json(new_agent, API::V1::Entities::Agent)
+        end # end post create_child
+        
         desc "获取代理商个人信息"
         params do
           requires :token, type: String, desc: 'TOKEN'
