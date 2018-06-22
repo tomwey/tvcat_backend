@@ -139,6 +139,23 @@ module API
             if (params[:need_active] || 0).to_i == 1
               uc.used_at = Time.zone.now
               uc.save!
+              
+              # 更新用户的有效期
+              days = order.vip_plan.try(:days) || 0
+              if user.vip_expired_at.blank?
+                user.vip_expired_at = Time.zone.now + days.days
+              else
+                user.vip_expired_at = user.vip_expired_at + days.days
+              end
+    
+              user.save!
+    
+              # 更新广告的激活次数
+              if uc.card_ad
+                uc.card_ad.active_count = uc.card_ad.active_count + 1
+                uc.card_ad.save!
+              end
+              
             end
           end
           
