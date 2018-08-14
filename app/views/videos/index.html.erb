@@ -2,8 +2,10 @@
   <div class="row">
     <% @videos.each do |video| %>
     <div class="col-sm-6">
-      <%= image_tag video.cover.url %>
-      <p class="name"><%= video.title %></p>
+      <a href="<%= video.play_url %>" class="video-item">
+        <%= image_tag video.cover.url %>
+        <p class="name"><%= video.title %></p>
+      </a>
     </div>
     <% end %>
   </div>

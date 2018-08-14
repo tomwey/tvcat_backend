@@ -46,8 +46,9 @@ module API
           
           parse_url = provider.parse_url || SiteConfig.vid_parse_url
           
+          dest_url = provider.uniq_id == 877180 ? params[:url] : "#{parse_url}?url=#{params[:url]}"
           { code: 0, message: 'ok', data: {
-            url: "#{parse_url}?url=#{params[:url]}", 
+            url: dest_url, 
             type: 'm3u8',
             src_url: params[:url],
             title: history.title || '',
