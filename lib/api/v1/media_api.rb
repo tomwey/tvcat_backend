@@ -29,15 +29,15 @@ module API
             return render_error(6008, 'VIP已过期')
           end
           
-          resp = RestClient.get "#{SiteConfig.player_parse_url}?url=#{params[:url]}&token=#{params[:token]}", { accept: :json }
-          
-          # puts resp
-          
-          result = JSON.parse(resp)
-          
-          if result.blank?
-            { code: 4004, message: '未获取到播放地址' }
-          else
+          # resp = RestClient.get "#{SiteConfig.player_parse_url}?url=#{params[:url]}&token=#{params[:token]}", { accept: :json }
+          #
+          # # puts resp
+          #
+          # result = JSON.parse(resp)
+          #
+          # if result.blank?
+          #   { code: 4004, message: '未获取到播放地址' }
+          # else
             
             provider = MediaProvider.find_by(uniq_id: params[:mp_id])
             if provider.present?
@@ -47,17 +47,19 @@ module API
                 history = MediaHistory.create!(uid: user.uid, 
                   mp_id: provider.uniq_id, 
                   source_url: params[:url], 
-                  title: result["title"], 
+                  title: "     ", 
                   progress: nil)
               end
+            else
+              return { code: 4004, message: '平台不存在' }
             end
             
             { code: 0, message: 'ok', data: {
-              url: result["url"], 
-              type: result["type"],
+              url: "#{provider.parse_url}?url=#{params[:url]}", 
+              type: 'm3u8',
               src_url: params[:url],
-              title: result["title"],
-              success: result["success"],
+              title: history.title || '',
+              success: 'ok',
               progress: (history.try(:progress) || 0).to_s
             } }
           end
@@ -69,6 +71,7 @@ module API
           requires :url, type: String, desc: '播放资源地址'
           requires :token, type: String, desc: '用户TOKEN'
           optional :progress, type: String, desc: '播放进度'
+          optional :title, type: String, desc: '视频名称'
         end
         post '/play/progress' do
           user = authenticate!
@@ -79,6 +82,7 @@ module API
           end
           
           history.progress = params[:progress]
+          history.title = params[:title]
           history.save!
           
           render_json_no_data
