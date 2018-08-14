@@ -44,7 +44,7 @@ module API
               progress: nil)
           end
           
-          parse_url = provider.parse_url || SiteConfig.vid_parse_url
+          parse_url = provider.parse_url.blank? ? SiteConfig.vid_parse_url : provider.parse_url
           
           dest_url = "#{parse_url}?url=#{params[:url]}"
           { code: 0, message: 'ok', data: {
