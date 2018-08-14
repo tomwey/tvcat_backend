@@ -1,0 +1,28 @@
+@import "bootstrap-sprockets";
+@import "bootstrap";
+
+$main-theme: rgb(111, 197, 184);
+
+body {
+  background-color: rgb(247,247,247);
+//  padding-top: 60px;
+}
+
+img {
+  max-width: 100%;
+}
+
+p, h2 {
+  margin: 0;
+  padding: 0;
+}
+
+.center-box {
+  display: -webkit-flex;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-justify-content: center;
+  text-align: center;
+}

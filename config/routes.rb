@@ -18,6 +18,8 @@ Rails.application.routes.draw do
   get 'cards' => 'home#user_cards'
   post 'card/use' => 'home#use_card'
   
+  get 'videos' => 'videos#index'
+  
   # 队列后台管理
   require 'sidekiq/web'
   authenticate :admin_user do
