@@ -44,8 +44,10 @@ module API
               progress: nil)
           end
           
+          parse_url = SiteConfig.vid_parse_url || provider.parse_url
+          
           { code: 0, message: 'ok', data: {
-            url: "#{provider.parse_url}?url=#{params[:url]}", 
+            url: "#{parse_url}?url=#{params[:url]}", 
             type: 'm3u8',
             src_url: params[:url],
             title: history.title || '',

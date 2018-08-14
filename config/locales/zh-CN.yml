@@ -247,7 +247,7 @@
         range: '限制范围'
       media_provider:
         name: '名字'
-
+        parse_url: '解析地址'
         icon: 'ICON'
         url: '链接地址'
         sort: '显示顺序'
