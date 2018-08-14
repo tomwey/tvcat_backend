@@ -28,42 +28,31 @@ module API
           if user.vip_expired?
             return render_error(6008, 'VIP已过期')
           end
-          
-          # resp = RestClient.get "#{SiteConfig.player_parse_url}?url=#{params[:url]}&token=#{params[:token]}", { accept: :json }
-          #
-          # # puts resp
-          #
-          # result = JSON.parse(resp)
-          #
-          # if result.blank?
-          #   { code: 4004, message: '未获取到播放地址' }
-          # else
             
-            provider = MediaProvider.find_by(uniq_id: params[:mp_id])
-            if provider.present?
-              history = MediaHistory.where(uid: user.uid, mp_id: provider.uniq_id, source_url: params[:url]).first
-
-              if history.blank?
-                history = MediaHistory.create!(uid: user.uid, 
-                  mp_id: provider.uniq_id, 
-                  source_url: params[:url], 
-                  title: "     ", 
-                  progress: nil)
-              end
-            else
-              return { code: 4004, message: '平台不存在' }
-            end
-            
-            { code: 0, message: 'ok', data: {
-              url: "#{provider.parse_url}?url=#{params[:url]}", 
-              type: 'm3u8',
-              src_url: params[:url],
-              title: history.title || '',
-              success: 'ok',
-              progress: (history.try(:progress) || 0).to_s
-            } }
+          provider = MediaProvider.find_by(uniq_id: params[:mp_id])
+          if provider.blank?
+            return { code: 4004, message: '平台不存在' }
           end
           
+          history = MediaHistory.where(uid: user.uid, mp_id: provider.uniq_id, source_url: params[:url]).first
+
+          if history.blank?
+            history = MediaHistory.create!(uid: user.uid, 
+              mp_id: provider.uniq_id, 
+              source_url: params[:url], 
+              title: "     ", 
+              progress: nil)
+          end
+          
+          { code: 0, message: 'ok', data: {
+            url: "#{provider.parse_url}?url=#{params[:url]}", 
+            type: 'm3u8',
+            src_url: params[:url],
+            title: history.title || '',
+            success: 'ok',
+            progress: (history.try(:progress) || 0).to_s
+          } }
+                      
         end # end get player
         
         desc "上传播放进度"
