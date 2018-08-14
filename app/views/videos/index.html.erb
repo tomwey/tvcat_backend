@@ -1,8 +1,8 @@
-<div class="container">
+<div class="container videos">
   <div class="row">
     <% @videos.each do |video| %>
-    <div class="col-sm-6">
-      <a href="<%= video.play_url %>" class="video-item">
+    <div class="col-xs-6">
+      <a href="<%= 'http://m.tvcat.co/videos?url=' + video.play_url %>" class="video-item">
         <%= image_tag video.cover.url %>
         <p class="name"><%= video.title %></p>
       </a>

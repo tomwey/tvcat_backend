@@ -27,13 +27,29 @@ p, h2 {
   text-align: center;
 }
 
+.videos {
+  padding: 15px 0;
+  .col-xs-6 {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+}
+
 .video-item {
   display: block;
   width: 100%;
   text-align: center;
+  color: #333;
+  padding-bottom: 15px;
   img {
     max-width: 100%;
   }
   
   text-decoration: none;
+  
+  .name {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #333;
+  }
 }
