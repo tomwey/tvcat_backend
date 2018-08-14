@@ -1,12 +1,10 @@
-<div class="container videos">
-  <div class="row">
+<div class="container">
+  <div class="row videos">
     <% @videos.each do |video| %>
     <div class="col-xs-6">
-      <a href="<%= video.play_url + '?title=' + video.title %>" class="thumbnail video-item-1">
+      <a href="<%= video.play_url %>" class="video-item">
         <%= image_tag video.cover.url %>
-        <div class="caption">
-          <h3><%= video.title %></h3>
-        </div>
+        <p class="name"><%= video.title %></p>
       </a>
     </div>
     <% end %>
