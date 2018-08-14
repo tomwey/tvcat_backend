@@ -46,12 +46,17 @@ module API
           
           parse_url = provider.parse_url.blank? ? SiteConfig.vid_parse_url : provider.parse_url
           
-          dest_url = "#{parse_url}?url=#{params[:url]}"
+          src_url = params[:url]
+          src_url,suffix = src_url.split('?')
+          
+          _,title = suffix.split('=') if suffix.present?
+          
+          dest_url = "#{parse_url}?url=#{src_url}"
           { code: 0, message: 'ok', data: {
             url: dest_url, 
             type: 'm3u8',
             src_url: params[:url],
-            title: history.title || '',
+            title: history.title || title || '',
             success: 'ok',
             progress: (history.try(:progress) || 0).to_s
           } }
