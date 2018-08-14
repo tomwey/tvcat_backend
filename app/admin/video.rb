@@ -2,7 +2,7 @@ ActiveAdmin.register Video do
 # See permitted parameters documentation:
 # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
 #
-permit_params :title, :cover, :body, :sort, :opened, :play_url
+permit_params :title, :cover, :body, :sort, :opened, :play_url, :release_date
 #
 # or
 #
@@ -18,6 +18,7 @@ form do |f|
     f.input :title
     f.input :cover
     f.input :play_url
+    f.input :release_date, as: :string, placeholder: '例如：2018-08-03'
     f.input :body, as: :text, input_html: { class: 'redactor' }, placeholder: '网页内容，支持图文混排', hint: '网页内容，支持图文混排'
     f.input :sort
     f.input :opened

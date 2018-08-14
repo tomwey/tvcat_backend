@@ -273,6 +273,7 @@
         play_url: '播放地址'
         sort: '显示顺序'
         opened: '是否上线'
+        release_date: '上映日期'
     errors:
       models:
         user: "用户"
