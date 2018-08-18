@@ -12,6 +12,21 @@ permit_params :title, :cover, :body, :sort, :opened, :play_url, :release_date
 #   permitted
 # end
 
+index do
+  selectable_column
+  column('#',:id)
+  column 'ID', :uniq_id
+  column :title
+  column '封面' do |o|
+    image_tag o.cover.url(:small)
+  end 
+  column :release_date
+  column :sort
+  column :opened
+  column 'at', :created_at
+  actions
+end
+
 form do |f|
   f.semantic_errors
   f.inputs do
