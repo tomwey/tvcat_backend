@@ -2,7 +2,7 @@
 require 'digest/md5'
 class CardAdUploader < BaseUploader
   
-  storage :qiniu
+  # storage :qiniu
   
   version :large do
     process resize_to_limit: [1080, nil]
