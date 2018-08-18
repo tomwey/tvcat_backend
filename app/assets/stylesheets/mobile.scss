@@ -53,6 +53,11 @@ p, h2 {
     margin: 0 auto;
   }
   
+  &:visited, &:active {
+    text-decoration: none;
+    color: #333;
+  }
+  
   text-decoration: none;
   
   .name {
