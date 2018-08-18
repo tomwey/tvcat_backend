@@ -50,13 +50,15 @@ module API
           src_url,suffix = src_url.split('?')
           
           _,title = suffix.split('=') if suffix.present?
-          
+          if history.title.present?
+            title = history.title
+          end
           dest_url = "#{parse_url}?url=#{src_url}"
           { code: 0, message: 'ok', data: {
             url: dest_url, 
             type: 'm3u8',
             src_url: params[:url],
-            title: history.title || title || '',
+            title: title || '',
             success: 'ok',
             progress: (history.try(:progress) || 0).to_s
           } }
