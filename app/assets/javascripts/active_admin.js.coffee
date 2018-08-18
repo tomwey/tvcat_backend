@@ -1,14 +1,9 @@
 #= require arctic_admin/base
 #= require jquery.chosen
-#= require lucky_draw.mRotate
-#= require lucky_draw.utils
 #= require redactor-rails/redactor
 #= require redactor-rails/config
 #= require redactor-rails/langs/zh_cn
 #= require redactor-rails/plugins
-#= require fusioncharts/fusioncharts
-#= require fusioncharts/fusioncharts.charts
-#= require fusioncharts/themes/fusioncharts.theme.fint
 
 # window.EventForm =
 #   hideAll: () ->

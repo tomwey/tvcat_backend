@@ -7,11 +7,11 @@
 set :stage, :production
 set :branch, 'master'
 
-role :app, %w{deployer@tvcat.co}
-role :web, %w{deployer@tvcat.co}
-role :db,  %w{deployer@tvcat.co}
+role :app, %w{deployer@tvcat.info}
+role :web, %w{deployer@tvcat.info}
+role :db,  %w{deployer@tvcat.info}
 
-set :server_name, "tvcat.co"
+set :server_name, "tvcat.info"
 # set :port, "80" # 默认都是80端口
 
 set :full_app_name, "#{fetch(:application)}_#{fetch(:stage)}"
@@ -23,7 +23,7 @@ set :full_app_name, "#{fetch(:application)}_#{fetch(:stage)}"
 # server list. The second argument is a, or duck-types, Hash and is
 # used to set extended properties on the server.
 
-server 'tvcat.co', user: "deployer", roles: %w{web app db}, primary: true
+server 'tvcat.info', user: "deployer", roles: %w{web app db}, primary: true
 
 set :deploy_to, "/home/#{fetch(:deploy_user)}/apps/#{fetch(:full_app_name)}"
 #"/data/www/apps/#{fetch(:full_app_name)}"
@@ -42,7 +42,7 @@ set :puma_error_log, "#{shared_path}/log/puma_access.log"
 set :puma_role, :app
 set :puma_env, fetch(:rack_env, fetch(:rails_env, 'production'))
 set :puma_threads, [4, 16]
-set :puma_workers, 1
+set :puma_workers, 2
 set :puma_init_active_record, false
 set :puma_preload_app, true
 

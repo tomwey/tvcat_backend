@@ -2,7 +2,8 @@
 require 'digest/md5'
 class CoverImageUploader < BaseUploader
   
-  storage :qiniu
+  # storage :qiniu
+  # storage :file
   
   version :large do
     process resize_to_fill: [540, 800]

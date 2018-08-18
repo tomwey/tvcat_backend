@@ -2,7 +2,7 @@
 
 class BannerImageUploader < BaseUploader
 
-  storage :qiniu
+  # storage :qiniu
   # storage :file
 
   version :big do
