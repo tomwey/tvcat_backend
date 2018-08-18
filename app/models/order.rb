@@ -13,10 +13,10 @@ class Order < ActiveRecord::Base
   
   after_create :join_card_create_queue
   def join_card_create_queue
-    CreateVipCardJob.perform_later(self.id)
-    
-    # 计算佣金
-    calc_earns
+    # CreateVipCardJob.perform_later(self.id)
+    #
+    # # 计算佣金
+    # calc_earns
   end
 
   def create_cards!
