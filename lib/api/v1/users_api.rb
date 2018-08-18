@@ -106,7 +106,7 @@ module API
               aboutus_url: SiteConfig.aboutus_url,
               faq_url: SiteConfig.faq_url,
               vip_charge_url: SiteConfig.vip_charge_url,
-              ad_blacklist: SiteConfig.ad_blacklist.split(',')
+              ad_blacklist: []
             }
           }
           
@@ -120,7 +120,7 @@ module API
                 faq_url: SiteConfig.faq_url,
                 download_url: SiteConfig.app_qrcode_url,
                 vip_charge_url: SiteConfig.vip_charge_url,
-                ad_blacklist: SiteConfig.ad_blacklist.split(','),
+                ad_blacklist: [],
                 ad_script: "var $el = $('a[id^=__a_z_]'); $el.hide();"
               },
               new_version: API::V1::Entities::AppVersion.represent(@app_version)
