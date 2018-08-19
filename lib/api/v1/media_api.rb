@@ -50,9 +50,11 @@ module API
           src_url,suffix = src_url.split('?')
           
           _,title = suffix.split('=') if suffix.present?
-          title = CGI::unescape(title)
           if history.title.present?
             title = history.title
+          end
+          if title
+            title = CGI::unescape(title)
           end
           dest_url = "#{parse_url}?url=#{src_url}"
           { code: 0, message: 'ok', data: {

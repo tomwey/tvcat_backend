@@ -35,6 +35,12 @@ window.App =
     if token
       window.localStorage.setItem('token', token)
   
+  incrPlayCount: (vid) ->
+    $.ajax
+      url: '/video/view'
+      type: 'POST'
+      data: { vid: vid }
+  
   useCard: (cid, uid) ->
     $.ajax
       url: "/card/use"

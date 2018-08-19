@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   post 'card/use' => 'home#use_card'
   
   get 'videos' => 'videos#index'
+  post 'video/view' => 'videos#view'
   
   # 队列后台管理
   require 'sidekiq/web'
