@@ -50,6 +50,7 @@ module API
           src_url,suffix = src_url.split('?')
           
           _,title = suffix.split('=') if suffix.present?
+          title = CGI::unescape(title)
           if history.title.present?
             title = history.title
           end
