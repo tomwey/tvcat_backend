@@ -14,7 +14,7 @@ index do
   column raw("<br>单价<br>数量<br>总价<br><br>") do |o|
     raw("单价: #{o.vip_plan._price}元/个<br>数量: #{o.quantity}<br>总价: #{'%.2f' % (o.total_money / 100.0) + '元'}")
   end
-  
+  column '已发出会员卡', :sent_count
   column '代理佣金' do |o|
     raw("分销商: #{o.agent.name}<br>级别: L#{o.agent.level}<br>#{o.agent_earns_display.join('<br>')}")
   end
