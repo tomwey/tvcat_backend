@@ -20,6 +20,7 @@ index do
   column '封面' do |o|
     image_tag o.cover.url(:small)
   end 
+  column :play_count
   column :release_date
   column :sort
   column :opened
