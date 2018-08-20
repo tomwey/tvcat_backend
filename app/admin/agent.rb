@@ -2,7 +2,7 @@ ActiveAdmin.register Agent do
 # See permitted parameters documentation:
 # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
 #
-permit_params :name, :mobile, :level, :login, :password, :password_confirmation, :parent_id, :verified
+permit_params :name, :mobile, :level, :login, :password, :password_confirmation, :parent_id, :verified, :earn_config
 
 index do
   selectable_column
@@ -34,6 +34,7 @@ form do |f|
     f.input :mobile
     f.input :level, as: :select, collection: Agent.levels
     f.input :parent_id, as: :select, label: '上级代理', collection: Agent.where(verified: true).map { |a| [a.name, a.uniq_id] }
+    f.input :earn_config, label: '佣金提成配置', placeholder: '例如：40,20,10', hint: '如果不设置，默认会使用全局配置'
     f.input :verified
   end
   f.inputs "登录信息" do

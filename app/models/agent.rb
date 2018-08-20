@@ -43,6 +43,7 @@ class Agent < ActiveRecord::Base
   # 计算佣金
   def calc_earn_for(uc, index, from_agent_id)
     awards = Agent.agent_awards
+    return if awards.empty? or awards.size <= index
     
     ratio = awards[index].to_i
     
@@ -62,7 +63,15 @@ class Agent < ActiveRecord::Base
   end
   
   def self.agent_awards
-    SiteConfig.agent_awards ? SiteConfig.agent_awards.split(',') : []
+    config = self.earn_config
+    if config.blank?
+      config = SiteConfig.agent_awards
+    end
+    if config.blank?
+      return []
+    end
+    
+    return config.split(',')
   end
   
   def parent
