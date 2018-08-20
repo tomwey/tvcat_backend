@@ -29,7 +29,7 @@ class Agent < ActiveRecord::Base
   
   def self.levels
     # [['L0', 0], ['L1', 1], ['L2', 2]]
-    awards = self.agent_awards
+    awards = SiteConfig.agent_awards ? SiteConfig.agent_awards.split(',') : []
     
     index = 0
     arr = []
@@ -110,7 +110,7 @@ class Agent < ActiveRecord::Base
       end
       
       child_ids = Agent.where(parent_id: child_ids).pluck(:uniq_id)
-      puts child_ids
+      # puts child_ids
       
       sum += child_ids.size
     end
