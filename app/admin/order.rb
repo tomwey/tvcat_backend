@@ -24,9 +24,9 @@ index do
   
   actions defaults: false do |o|
     item "查看", admin_order_path(o)
-    if o.quantity > o.join_count
-      item "生成VIP卡", create_card_admin_order_path(o), method: :put, data: { confirm: '你确定吗?' }
-    end
+    # if o.quantity > o.join_count
+    #   item "生成VIP卡", create_card_admin_order_path(o), method: :put, data: { confirm: '你确定吗?' }
+    # end
   end
 end
 

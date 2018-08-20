@@ -16,6 +16,9 @@ class UserCard < ActiveRecord::Base
     if order
       order.sent_count += 1
       order.save!
+      
+      # 计算佣金
+      order.calc_earns
     end
   end
   

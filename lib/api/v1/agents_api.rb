@@ -201,7 +201,11 @@ module API
               if user.vip_expired_at.blank?
                 user.vip_expired_at = Time.zone.now + days.days
               else
-                user.vip_expired_at = user.vip_expired_at + days.days
+                if user.vip_expired_at < Time.zone.now
+                  user.vip_expired_at = Time.zone.now + days.days
+                else
+                  user.vip_expired_at = user.vip_expired_at + days.days
+                end
               end
     
               user.save!

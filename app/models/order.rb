@@ -16,7 +16,7 @@ class Order < ActiveRecord::Base
     # CreateVipCardJob.perform_later(self.id)
     #
     # # 计算佣金
-    calc_earns
+    # calc_earns
   end
 
   def create_cards!
