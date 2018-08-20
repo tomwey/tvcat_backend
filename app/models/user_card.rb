@@ -18,7 +18,7 @@ class UserCard < ActiveRecord::Base
       order.save!
       
       # 计算佣金
-      order.calc_earns
+      CalcAgentEarnJob.perform_later(order.id)
     end
   end
   
