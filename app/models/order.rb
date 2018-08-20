@@ -86,6 +86,6 @@ class Order < ActiveRecord::Base
   #     arr << "#{earn.title}: #{('%.2f' % (earn.money / 100.0)) + '元'}"
   #   end
   #   arr
-  end
+  # end
   
 end
