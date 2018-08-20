@@ -169,7 +169,15 @@ module API
         get :orders do
           agent = authenticate_agent!
           
-          @orders = Order.where(opened: true, agent_id: agent.uniq_id).order('id desc')
+          ids = [agent.uniq_id]
+          parent = agent.parent
+          loop do
+            break if parent.blank?
+            ids << parent.uniq_id
+            parent = parent.parent
+          end
+          
+          @orders = Order.where(opened: true, agent_id: ids).order('id desc')
           type = (params[:type] || 0).to_i
           
           if type == 0
