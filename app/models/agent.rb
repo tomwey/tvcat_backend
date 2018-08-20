@@ -29,7 +29,7 @@ class Agent < ActiveRecord::Base
   
   def self.levels
     # [['L0', 0], ['L1', 1], ['L2', 2]]
-    awards = Agent.agent_awards
+    awards = self.agent_awards
     
     index = 0
     arr = []
@@ -42,7 +42,7 @@ class Agent < ActiveRecord::Base
   
   # 计算佣金
   def calc_earn_for(uc, index, from_agent_id)
-    awards = Agent.agent_awards
+    awards = self.agent_awards
     return if awards.empty? or awards.size <= index
     
     ratio = awards[index].to_i
@@ -62,7 +62,7 @@ class Agent < ActiveRecord::Base
                       earnable_id: uc.uniq_id)
   end
   
-  def self.agent_awards
+  def agent_awards
     config = self.earn_config
     if config.blank?
       config = SiteConfig.agent_awards
