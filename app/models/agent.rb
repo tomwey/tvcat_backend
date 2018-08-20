@@ -41,18 +41,24 @@ class Agent < ActiveRecord::Base
   end
   
   # 计算佣金
-  def calc_earn_for(order, index)
+  def calc_earn_for(uc, index, from_agent_id)
     awards = Agent.agent_awards
     
     ratio = awards[index].to_i
     
     # return 0 if self.level == 0
     
-    money = (order.vip_plan.price / 100.0) * (ratio.to_i / 100.0)
+    money = (uc.vip_card_plan.price / 100.0) * (ratio.to_i / 100.0)
     money = (money * 100).to_i
     
     prefix = %w(1 2 3)[index]
-    AgentEarn.create!(agent_id: self.uniq_id, money: money, title: "#{prefix}级佣金", earnable_type: order.class, earnable_id: order.uniq_id)
+    AgentEarn.create!(agent_id: self.uniq_id, 
+                      money: money, 
+                      title: "#{prefix}级佣金", 
+                      ratio: ratio,
+                      from_agent_id: from_agent_id,
+                      earnable_type: uc.class, 
+                      earnable_id: uc.uniq_id)
   end
   
   def self.agent_awards
@@ -66,7 +72,7 @@ class Agent < ActiveRecord::Base
   def today_earn
     now = Time.zone.now
     
-    AgentEarn.where(created_at: now.beginning_of_day..now.end_of_day).pluck(:money).sum
+    AgentEarn.where(agent_id: self.uniq_id).where(created_at: now.beginning_of_day..now.end_of_day).pluck(:money).sum
   end
   
   def total_orders

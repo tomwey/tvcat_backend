@@ -15,6 +15,19 @@ class AgentEarn < ActiveRecord::Base
     end
   end
   
+  def from_agent
+    @from_agent ||= Agent.find_by(uniq_id: self.from_agent_id)
+  end
+  
+  def product_name
+    uc = UserCard.find_by(uniq_id: self.earnable_id)
+    if uc && uc.vip_card_plan
+      uc.vip_card_plan.name
+    else
+      ''
+    end
+  end
+  
   def agent
     @agent ||= Agent.find_by(uniq_id: self.agent_id)
   end

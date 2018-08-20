@@ -208,7 +208,8 @@ module API
           users.each do |user|
             uc = UserCard.create!(order_id: order.uniq_id, 
                                   sent_at: Time.zone.now, 
-                                  card_ad_id: order.card_ads.sample, 
+                                  card_ad_id: order.card_ads.sample,
+                                  agent_id: agent.uniq_id,
                                   user_id: user.uid)
                                   
             if (params[:need_active] || 0).to_i == 1

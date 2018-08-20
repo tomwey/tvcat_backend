@@ -41,6 +41,9 @@ module API
         expose :money, format_with: :rmb_format
         expose :title
         expose :created_at, as: :time, format_with: :chinese_datetime
+        expose :ratio
+        expose :from_agent, using: API::V1::Entities::Agent
+        expose :product_name
       end
       
       # 用户基本信息
@@ -91,12 +94,6 @@ module API
         expose :_price, as: :price
       end
       
-      class AgentEarn < Base
-        expose :uniq_id, as: :id
-        expose :title
-        expose :money, format_with: :rmb_format
-      end
-      
       class Order < Base
         expose :uniq_id, as: :id
         expose :vip_plan, using: API::V1::Entities::VipPlan
@@ -106,7 +103,7 @@ module API
         expose :agent_name do |model, opts|
           model.agent.try(:name)
         end
-        expose :agent_earns, using: API::V1::Entities::AgentEarn
+        # expose :agent_earns, using: API::V1::Entities::AgentEarn
       end
       
       class MediaHistory < Base

@@ -18,8 +18,26 @@ class UserCard < ActiveRecord::Base
       order.save!
       
       # 计算佣金
-      CalcAgentEarnJob.perform_later(order.id)
+      CalcAgentEarnJob.perform_later(self.id)
     end
+  end
+  
+  # 计算佣金
+  def calc_earns
+    index = 0
+    current_agent = self.agent
+    loop do
+      break if current_agent.blank?
+      
+      current_agent.calc_earn_for(self, index, self.agent_id)
+      
+      index = index + 1
+      current_agent = current_agent.parent
+    end
+  end
+  
+  def agent
+    @agent ||= Agent.find_by(uniq_id: self.agent_id)
   end
   
   def card_ad
