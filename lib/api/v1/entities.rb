@@ -36,6 +36,13 @@ module API
         # expose :private_token, as: :token
       end
       
+      class AgentEarn < Base
+        expose :uniq_id, as: :id
+        expose :money, format_with: :rmb_format
+        expose :title
+        expose :created_at, as: :time, format_with: :chinese_datetime
+      end
+      
       # 用户基本信息
       class UserProfile < UserBase
         # expose :uid, format_with: :null

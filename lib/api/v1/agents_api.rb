@@ -53,6 +53,25 @@ module API
           
         end # end get children
         
+        desc "获取收益明细"
+        params do
+          requires :token, type: String, desc: 'TOKEN'
+          use :pagination
+        end
+        get :earns do
+          agent = authenticate_agent!
+          
+          @earns = AgentEarn.where(agent_id: agent.uniq_id).order('id desc')
+          if params[:page]
+            @earns = @earns.paginate page: params[:page], per_page: page_size
+            total = @earns.total_entries
+          else
+            total = @earns.size
+          end
+          
+          render_json(@earns, API::V1::Entities::AgentEarn, {}, total)
+        end # end get
+        
         desc "创建代理"
         params do
           requires :token,    type: String, desc: 'TOKEN'
