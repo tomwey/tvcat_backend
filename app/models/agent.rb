@@ -48,7 +48,7 @@ class Agent < ActiveRecord::Base
     
     # return 0 if self.level == 0
     
-    money = (order.total_money / 100.0) * (ratio.to_i / 100.0)
+    money = (order.vip_plan.price / 100.0) * (ratio.to_i / 100.0)
     money = (money * 100).to_i
     
     prefix = %w(1 2 3)[index]
