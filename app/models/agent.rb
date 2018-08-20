@@ -74,9 +74,17 @@ class Agent < ActiveRecord::Base
     
     AgentEarn.where(agent_id: self.uniq_id).where(created_at: now.beginning_of_day..now.end_of_day).pluck(:money).sum
   end
-  
+    
   def total_orders
-    Order.where(agent_id: self.uniq_id).count
+    ids = [self.uniq_id]
+    parent = self.parent
+    loop do
+      break if parent.blank?
+      ids << parent.uniq_id
+      parent = parent.parent
+    end
+    
+    Order.where(agent_id: ids).count
   end
   
   def child_count
