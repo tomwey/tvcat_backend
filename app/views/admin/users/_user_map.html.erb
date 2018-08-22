@@ -24,13 +24,31 @@ window.onload = function() {
             sessions.each do |session|
           %>
           
-          var loc = "<%= session.parsePoint %>"
-          var lng = loc.split(',')[1]
-          var lat = loc.split(',')[0]
-          // 创建标注对象并添加到地图   
-          var point = new BMap.Point(lng, lat);   
-          var marker = new BMap.Marker(point, {icon: myIcon});    
-          map.addOverlay(marker);
+          var ip = "<%= session.ip %>"
+          
+          $.ajax({
+            url: 'http://api.map.baidu.com/location/ip',
+            type: 'GET',
+            data: { ak: 'z8cPGX5TKKrZOYbrAlgYcnSYHFm6o5cE', ip: ip, coor: 'bd09ll' }
+            success: function(gps_json) {
+              var lat = 0
+              var lng = 0
+    
+              if (gps_json['status'] && gps_json['status'].to_i == 0) {
+                if (gps_json['content'] && gps_json['content']['point']) {
+                  lat = gps_json['content']['point']['y']
+                  lng = gps_json['content']['point']['x']
+                }
+              }
+              
+              // 创建标注对象并添加到地图   
+              var point = new BMap.Point(lng, lat);   
+              var marker = new BMap.Marker(point, {icon: myIcon});    
+              map.addOverlay(marker);
+            }
+          });
+
+          
           
           <% end %>
       }
