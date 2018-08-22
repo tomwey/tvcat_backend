@@ -15,6 +15,29 @@ ActiveAdmin.register_page "Dashboard" do
       # render "admin/dashboard/profile", owner: current_admin_user
     end
     
+    columns do
+      column do
+        panel "数据汇总" do
+          table class: 'stat-table' do
+            tr do
+              th '用户数'
+              th '会话数'
+              th '会员数'
+              th '观看历史'
+              th '分销商'
+            end
+            tr do
+              td User.count
+              td UserSession.count
+              td UserCard.count
+              td MediaHistory.count
+              td Agent.count
+            end
+          end
+        end
+      end
+    end
+    
     # 玩家统计
     # columns do
     #   column do
