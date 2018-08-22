@@ -11,6 +11,30 @@ class UserSession < ActiveRecord::Base
   after_create :parse_ip_location
   def parse_ip_location
     ParseIPLocJob.perform_later(self.id)
+    
+    if self.location
+      TranslateAndroidLocJob.perform_later(self.id)
+    end
+  end
+  
+  def do_translate_android_loc
+    if self.location and self.os and self.os.downcase == 'android'
+      resp = RestClient.get 'https://apis.map.qq.com/ws/coord/v1/translate',
+                     { :params => { :key => "EJZBZ-VCM34-QJ4UU-XUWNV-3G2HJ-DWBNJ",
+                                    :type => 1
+                                  } 
+                     }
+      gps_json = JSON.parse(resp)
+      if gps_json && gps_json['locations']
+        arr = gps_json['locations']
+        if arr.size > 0
+          lng = arr[0]['lng']
+          lat = arr[0]['lat']
+          self.location = "POINT(#{lng} #{lat})"
+          self.save
+        end
+      end
+    end
   end
   
   def do_parse_location!
