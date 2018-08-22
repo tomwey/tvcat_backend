@@ -27,7 +27,7 @@ window.onload = function() {
           var ip = "<%= session.ip %>"
           
           $.ajax({
-            url: '/app/location',
+            url: '/api/v1/app/location',
             type: 'GET',
             data: { ip: ip },
             success: function(re) {              
