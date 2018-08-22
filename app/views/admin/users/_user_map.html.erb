@@ -1,30 +1,47 @@
 <div id="user-map" style="width: 100%; height: 600px;"></div>
-<script charset="utf-8" src="http://map.qq.com/api/js?v=2.exp"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=<%= SiteConfig.baidu_map_js_ak %>"></script>
 
 <script>
 window.onload = function() {
   //初始化地图函数  自定义函数名init
       function init() {
-          //定义map变量 调用 qq.maps.Map() 构造函数   获取地图显示容器
-           var map = new qq.maps.Map(document.getElementById("user-map"), {
-              center: new qq.maps.LatLng(30.670470,104.074390),      // 地图的中心地理坐标。
-              zoom:8                                                 // 地图的中心地理坐标。
-          });
+          // 定义map变量 调用 qq.maps.Map() 构造函数   获取地图显示容器          
+          var map = new BMap.Map("user-map");          // 创建地图实例  
+          var point = new BMap.Point(104.074390, 30.670470);  // 创建点坐标  
+          map.centerAndZoom(point, 8);
           
-          var anchor = new qq.maps.Point(6, 12),
-                  size = new qq.maps.Size(14, 25),
-                  origin = new qq.maps.Point(0, 0),
-                  icon = new qq.maps.MarkerImage('<%= CommonConfig.map_anchor_image %>', size, origin, anchor);
+          map.enableScrollWheelZoom(true);
           
+          // var anchor = new qq.maps.Point(6, 12),
+          //         size = new qq.maps.Size(14, 25),
+          //         origin = new qq.maps.Point(0, 0),
+          //         icon = new qq.maps.MarkerImage('<%= CommonConfig.map_anchor_image %>', size, origin, anchor);
+          
+          var myIcon = new BMap.Icon("<%= SiteConfig.map_anchor_img %>", new BMap.Size(14, 25), {    
+                  // 指定定位位置。   
+                  // 当标注显示在地图上时，其所指向的地理位置距离图标左上    
+                  // 角各偏移10像素和25像素。您可以看到在本例中该位置即是   
+                  // 图标中央下端的尖角位置。    
+                  anchor: new BMap.Size(6, 12),  
+              });      
+              
           <%
             sessions.each do |session|
           %>
           
-          var marker = new qq.maps.Marker({
-              position: new qq.maps.LatLng(<%= session.begin_loc.try(:y) %>,<%= session.begin_loc.try(:x) %>),
-              map: map,
-              icon: icon,
-          });
+          // var marker = new qq.maps.Marker({
+          //     position: new qq.maps.LatLng(<%= session.begin_loc.try(:y) %>,<%= session.begin_loc.try(:x) %>),
+          //     map: map,
+          //     icon: icon,
+          // });
+          
+          var loc = "<%= session.parsePoint %>"
+          var lng = loc.split(',')[1]
+          var lat = loc.split(',')[0]
+          // 创建标注对象并添加到地图   
+          var point = new BMap.Point(lng, lat);   
+          var marker = new BMap.Marker(point, {icon: myIcon});    
+          map.addOverlay(marker);
           
           <% end %>
       }

@@ -38,6 +38,41 @@ ActiveAdmin.register_page "Dashboard" do
       end
     end
     
+    columns do
+      column do
+        panel "今日新增汇总" do
+          table class: 'stat-table' do
+            tr do
+              th '今日用户'
+              th '今日会话'
+              th '今日会员'
+              th '今日观看历史'
+              th '今日分销商'
+            end
+            tr do
+              now = Time.zone.now
+              td User.where(created_at: now.beginning_of_day..now.end_of_day).count
+              td UserSession.where(created_at: now.beginning_of_day..now.end_of_day).count
+              td UserCard.where(created_at: now.beginning_of_day..now.end_of_day).count
+              td MediaHistory.where(created_at: now.beginning_of_day..now.end_of_day).count
+              td Agent.where(created_at: now.beginning_of_day..now.end_of_day).count
+            end
+          end
+        end
+      end
+    end
+    
+    columns do
+      column do
+        panel "用户会话分布" do
+          div do
+            @sessions = UserSession.all
+            render 'admin/users/user_map', sessions: @sessions
+          end
+        end
+      end
+    end
+    
     # 玩家统计
     # columns do
     #   column do
