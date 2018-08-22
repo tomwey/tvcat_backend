@@ -1,3 +1,5 @@
+require 'rest-client'
+
 module API
   module V1
     class AppGlobalAPI < Grape::API
@@ -37,6 +39,33 @@ module API
           
           render_json(@app_version, API::V1::Entities::AppVersion)
         end # end
+        
+        desc 'IP解析经纬度'
+        params do
+          requires :ip, type: String, desc: 'IP地址'
+        end
+        get :location do
+          resp = RestClient.get 'http://api.map.baidu.com/location/ip', 
+                         { :params => { :ak => "z8cPGX5TKKrZOYbrAlgYcnSYHFm6o5cE",
+                                        :ip => params[:ip],
+                                        :coor => 'bd09ll'
+                                      } 
+                         }
+               
+          gps_json = JSON.parse(resp)
+    
+          lat = '0'
+          lng = '0'
+    
+          if gps_json['status'] && gps_json['status'].to_i == 0
+            if gps_json['content'] && gps_json['content']['point']
+              lat = gps_json['content']['point']['y']
+              lng = gps_json['content']['point']['x']
+            end
+          end
+          
+          { lat: lat, lng: lng }
+        end
         
       end # end resource
       
