@@ -12,11 +12,6 @@ window.onload = function() {
           
           map.enableScrollWheelZoom(true);
           
-          // var anchor = new qq.maps.Point(6, 12),
-          //         size = new qq.maps.Size(14, 25),
-          //         origin = new qq.maps.Point(0, 0),
-          //         icon = new qq.maps.MarkerImage('<%= CommonConfig.map_anchor_image %>', size, origin, anchor);
-          
           var myIcon = new BMap.Icon("<%= SiteConfig.map_anchor_img %>", new BMap.Size(14, 25), {    
                   // 指定定位位置。   
                   // 当标注显示在地图上时，其所指向的地理位置距离图标左上    
@@ -28,12 +23,6 @@ window.onload = function() {
           <%
             sessions.each do |session|
           %>
-          
-          // var marker = new qq.maps.Marker({
-          //     position: new qq.maps.LatLng(<%= session.begin_loc.try(:y) %>,<%= session.begin_loc.try(:x) %>),
-          //     map: map,
-          //     icon: icon,
-          // });
           
           var loc = "<%= session.parsePoint %>"
           var lng = loc.split(',')[1]
