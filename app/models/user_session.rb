@@ -9,9 +9,10 @@ class UserSession < ActiveRecord::Base
   end
   
   def parsePoint
+    return "0,0" if self.ip.blank?
     resp = RestClient.get 'http://api.map.baidu.com/location/ip', 
                    { :params => { :ak => "z8cPGX5TKKrZOYbrAlgYcnSYHFm6o5cE",
-                                  :ip => client_ip,
+                                  :ip => self.ip,
                                   :coor => 'bd09ll'
                                 } 
                    }
