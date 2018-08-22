@@ -35,4 +35,9 @@ class UserSession < ActiveRecord::Base
     end
   end
   
+  def user_loc
+    loc = self.location || self.ip_location
+    [loc.try(:y) || '0', loc.try(:x) || '0']
+  end
+  
 end
