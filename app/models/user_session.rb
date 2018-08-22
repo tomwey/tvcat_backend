@@ -8,27 +8,31 @@ class UserSession < ActiveRecord::Base
     end while self.class.exists?(:uniq_id => uniq_id)
   end
   
-  def parsePoint
-    return "0,0" if self.ip.blank?
-    resp = RestClient.get 'http://api.map.baidu.com/location/ip', 
-                   { :params => { :ak => "z8cPGX5TKKrZOYbrAlgYcnSYHFm6o5cE",
-                                  :ip => self.ip,
-                                  :coor => 'bd09ll'
-                                } 
-                   }
-               
-    gps_json = JSON.parse(resp)
+  after_create :parse_ip_location
+  def parse_ip_location
+    ParseIPLocJob.perform_later(self.id)
+  end
+  
+  def do_parse_location!
+    if self.ip and self.ip_location.blank?
+      resp = RestClient.get 'https://apis.map.qq.com/ws/location/v1/ip', 
+                     { :params => { :key => "EJZBZ-VCM34-QJ4UU-XUWNV-3G2HJ-DWBNJ",
+                                    :ip => self.ip
+                                  } 
+                     }
+      gps_json = JSON.parse(resp)
     
-    lat = '0'
-    lng = '0'
-    
-    if gps_json['status'] && gps_json['status'].to_i == 0
-      if gps_json['content'] && gps_json['content']['point']
-        lat = gps_json['content']['point']['y']
-        lng = gps_json['content']['point']['x']
+      if gps_json['status'] && gps_json['status'].to_i == 0
+        if gps_json['result'] && gps_json['result']['location']
+          lat = gps_json['result']['location']['lat']
+          lng = gps_json['result']['location']['lng']
+          
+          self.ip_location = "POINT(#{lng} #{lat})"
+          self.save!
+        end
       end
+    
     end
-    return "#{lat},#{lng}"
   end
   
 end
