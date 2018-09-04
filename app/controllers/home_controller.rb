@@ -43,6 +43,11 @@ class HomeController < ApplicationController
     end
   end
   
+  def download2
+    version = AppVersion.where('lower(os) = ?', 'android').where(opened: true).order('version desc').first
+    redirect_to version.app_url
+  end
+  
   def parse_error
     url   = params[:url]
     token = params[:token]

@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   
   get 'app/download' => 'home#download'
   get 'app/install'  => 'home#install'
+  get 'app/download2'=> 'home#download2'
   
   # get parseurl/error?url=xxxxx
   get 'parseurl/error' => 'home#parse_error' 
